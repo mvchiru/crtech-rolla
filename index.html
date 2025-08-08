@@ -5,151 +5,73 @@
   <title>CRTECH‑ROLLA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #fce4ec);
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #4a148c;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 28px;
-    }
-    .container {
-      max-width: 500px;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #aaa;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #7b1fa2;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    .services {
-      display: none;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-      padding: 20px;
-    }
-    .service-card {
-      background: #f3e5f5;
-      border-radius: 10px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      font-size: 16px;
-    }
-    .service-card img {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 10px;
-    }
-    footer {
-      background-color: #4a148c;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 40px;
-    }
+    body { font-family:'Segoe UI', sans-serif; background:linear-gradient(to right,#e0f7fa,#fce4ec); margin:0; padding:0; }
+    header { background-color:#4a148c; color:white; padding:20px; text-align:center; font-size:28px; }
+    .login { background:#fff; margin:30px auto; padding:20px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+    .login input[type="text"], .login input[type="password"] { width:100%; padding:12px; margin:8px 0; border:1px solid #aaa; border-radius:5px; }
+    .login input[type="button"] { width:100%; padding:12px; background:#7b1fa2; color:#fff; border:none; border-radius:5px; font-size:16px; cursor:pointer; }
+    .services { display:none; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px; padding:20px; }
+    .service-card { background:#f3e5f5; border-radius:10px; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); font-size:16px; }
+    .service-card img { width:60px; height:60px; margin-bottom:10px; }
+    footer { background-color:#4a148c; color:white; text-align:center; padding:15px; margin-top:40px; }
   </style>
 </head>
 <body>
 
   <header>CRTECH - ROLLA</header>
 
-  <div class="container">
+  <div class="login">
     <h2>Login</h2>
-    <input type="text" id="loginUsername" placeholder="Username">
-    <input type="password" id="loginPassword" placeholder="Password">
-    <button onclick="login()">Login</button>
-  </div>
-
-  <div class="container">
-    <h2>Create New User</h2>
-    <select id="role">
-      <option value="Super Distributor">Super Distributor</option>
-      <option value="Distributor">Distributor</option>
-      <option value="Retailer">Retailer</option>
-    </select>
-    <input type="text" id="newUsername" placeholder="New Username">
-    <input type="password" id="newPassword" placeholder="New Password">
-    <button onclick="createUser()">Create ID</button>
+    <input type="text" placeholder="Username" id="username"><br>
+    <input type="password" placeholder="Password" id="password"><br>
+    <input type="button" value="Login" id="loginBtn">
   </div>
 
   <section class="services" id="services">
-    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/en/e/e1/Mee_Seva_logo.png"><br>Meeseva Services</div>
-    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/en/e/e8/Andhra_Pradesh_Public_Service_Commission_logo.png"><br>APPSC</div>
-    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Emblem_of_Andhra_Pradesh.svg"><br>Aadhar Services</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2138/2138318.png"><br>Caste Certificate</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2242/2242269.png"><br>Residence Certificate</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991116.png"><br>Voter ID</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/4149/4149683.png"><br>Ration Card</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1063/1063191.png"><br>Land Records (Adangal)</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/3523/3523063.png"><br>Health Card</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/619/619034.png"><br>Spandana</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1865/1865269.png"><br>Police Clearance</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2618/2618274.png"><br>Transport & License</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png"><br>Housing Schemes</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1198/1198363.png"><br>Scholarships</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/858/858880.png"><br>Employee Pay Slips</div>
+    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/en/e/e1/Mee_Seva_logo.png" alt="MeeSeva"><br>Meeseva Services</div>
+    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/en/e/e8/Andhra_Pradesh_Public_Service_Commission_logo.png" alt="APPSC"><br>APPSC</div>
+    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Emblem_of_Andhra_Pradesh.svg" alt="AP Govt"><br>Aadhar Services</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2138/2138318.png" alt="Caste"><br>Caste Certificate</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2242/2242269.png" alt="Residence"><br>Residence Certificate</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991116.png" alt="Voter"><br>Voter ID</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/4149/4149683.png" alt="Ration"><br>Ration Card</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1063/1063191.png" alt="Adangal"><br>Land Records (Adangal)</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/3523/3523063.png" alt="Health"><br>Health Card</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/619/619034.png" alt="Spandana"><br>Spandana</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1865/1865269.png" alt="Police"><br>Police Clearance</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2618/2618274.png" alt="Transport"><br>Transport & License</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="Housing"><br>Housing Schemes</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1198/1198363.png" alt="Scholarships"><br>Scholarships</div>
+    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/858/858880.png" alt="Pay Slips"><br>Employee Pay Slips</div>
   </section>
 
   <footer>© 2025 CRTECH - ROLLA | Developed with 💜 in Andhra Pradesh</footer>
 
   <script>
-    let users = {
-      "CRTECH": { password: "CRTECH", role: "Super Distributor" }
-    };
-
-    function createUser() {
-      const role = document.getElementById('role').value;
-      const uname = document.getElementById('newUsername').value.trim();
-      const pwd = document.getElementById('newPassword').value.trim();
-
-      if (!uname || !pwd) {
-        alert("Please enter username and password.");
+    document.getElementById('loginBtn').addEventListener('click', function () {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      // Master login (Super Distributor)
+      if (user === 'CRTECH' && pass === 'CRTECH') {
+        showServices('Super Distributor');
         return;
       }
-
-      if (users[uname]) {
-        alert("Username already exists.");
-        return;
-      }
-
-      users[uname] = { password: pwd, role: role };
-      alert(`${role} ID created successfully.`);
-      document.getElementById('newUsername').value = "";
-      document.getElementById('newPassword').value = "";
-    }
-
-    function login() {
-      const uname = document.getElementById('loginUsername').value.trim();
-      const pwd = document.getElementById('loginPassword').value.trim();
-
-      if (users[uname] && users[uname].password === pwd) {
-        document.querySelectorAll('.container')[0].style.display = "none";
-        document.querySelectorAll('.container')[1].style.display = "none";
-        document.getElementById('services').style.display = "grid";
-        window.scrollTo({ top: document.getElementById('services').offsetTop, behavior: 'smooth' });
+      // Check localStorage for Distributor / Retailer
+      const users = JSON.parse(localStorage.getItem('userAccounts') || '[]');
+      const match = users.find(u => u.username === user && u.password === pass);
+      if (match) {
+        showServices(match.role);
       } else {
-        alert("Invalid credentials. Please try again.");
+        alert('Invalid credentials. Please try again.');
       }
+    });
+
+    function showServices(role) {
+      document.querySelector('.login').style.display = 'none';
+      document.getElementById('services').style.display = 'grid';
+      window.scrollTo({ top: document.getElementById('services').offsetTop, behavior: 'smooth' });
+      alert('Welcome, ' + role + '!');
     }
   </script>
-
 </body>
 </html>
