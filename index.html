@@ -1,19 +1,76 @@
 <!DOCTYPE html>
 <html lang="te">
 <head>
-  <meta charset="UTF‑8">
+  <meta charset="UTF-8">
   <title>CRTECH‑ROLLA</title>
-  <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family:'Segoe UI', sans-serif; background:linear-gradient(to right,#e0f7fa,#fce4ec); margin:0; padding:0; }
-    header { background-color:#4a148c; color:white; padding:20px; text-align:center; font-size:28px; }
-    .login { background:#fff; margin:30px auto; padding:20px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-    .login input[type="text"], .login input[type="password"] { width:100%; padding:12px; margin:8px 0; border:1px solid #aaa; border-radius:5px; }
-    .login input[type="button"] { width:100%; padding:12px; background:#7b1fa2; color:#fff; border:none; border-radius:5px; font-size:16px; cursor:pointer; }
-    .services { display:none; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px; padding:20px; }
-    .service-card { background:#f3e5f5; border-radius:10px; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); font-size:16px; }
-    .service-card img { width:60px; height:60px; margin-bottom:10px; }
-    footer { background-color:#4a148c; color:white; text-align:center; padding:15px; margin-top:40px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #fce4ec);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4a148c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+    }
+    .login {
+      background: #fff;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .login input[type="text"], .login input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+    }
+    .login input[type="button"] {
+      width: 100%;
+      padding: 12px;
+      background: #7b1fa2;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .services {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .service-card {
+      background: #f3e5f5;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 16px;
+    }
+    .service-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    footer {
+      background-color: #4a148c;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
   </style>
 </head>
 <body>
@@ -45,7 +102,7 @@
     <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/858/858880.png" alt="Pay Slips"><br>Employee Pay Slips</div>
   </section>
 
-  <footer>© 2025 CRTECH - ROLLA | Developed with 💜 in Andhra Pradesh</footer>
+  <footer>© 2025 CRTECH - ROLLA | Developed with 💜 in Andhra Pradesh</footer>
 
   <script>
     document.getElementById('loginBtn').addEventListener('click', function() {
@@ -60,5 +117,6 @@
       }
     });
   </script>
+
 </body>
 </html>
