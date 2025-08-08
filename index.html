@@ -53,7 +53,11 @@
   <input type="button" value="Logout" id="logoutBtn" class="logout-btn" style="display:none;">
 
   <section class="services" id="services">
-    <!-- Service cards here (unchanged) -->
+    <div class="service-card">
+      <img src="https://img.icons8.com/external-flat-icons-inmotus-design/100/external-user-personal-data-flat-icons-inmotus-design.png" alt="Retailer">
+      <div>Retailer Details</div>
+    </div>
+    <!-- Add more service cards here if needed -->
   </section>
 
   <section id="userListSection">
@@ -72,12 +76,14 @@
 
   <script>
     let currentUserRole = '';
+    let currentUsername = '';
 
     document.getElementById('loginBtn').addEventListener('click', function () {
       const user = document.getElementById('username').value.trim();
       const pass = document.getElementById('password').value.trim();
       if (user === 'CRTECH' && pass === 'CRTECH') {
         currentUserRole = 'Super Distributor';
+        currentUsername = 'CRTECH';
         showServices();
         document.getElementById('registerForm').style.display = 'block';
         displayUserList();
@@ -87,10 +93,12 @@
       const match = users.find(u => u.username === user && u.password === pass);
       if (match) {
         currentUserRole = match.role;
+        currentUsername = match.username;
         showServices();
         if (currentUserRole === 'Distributor') {
           document.getElementById('registerForm').style.display = 'block';
         }
+        displayUserList();
       } else {
         alert('Invalid credentials.');
       }
@@ -119,10 +127,10 @@
         alert('Distributor can only create Retailer accounts.'); return;
       }
 
-      users.push({ role, username, password, name, mobile, pan, aadhaar, address });
+      users.push({ role, username, password, name, mobile, pan, aadhaar, address, createdBy: currentUsername });
       localStorage.setItem('userAccounts', JSON.stringify(users));
       alert('Account created successfully!');
-      if (currentUserRole === 'Super Distributor') displayUserList();
+      displayUserList();
     }
 
     function showServices() {
@@ -136,11 +144,16 @@
       const users = JSON.parse(localStorage.getItem('userAccounts') || '[]');
       const tbody = document.querySelector('#userTable tbody');
       tbody.innerHTML = '';
-      users.forEach(u => {
+
+      const visibleUsers = (currentUserRole === 'Super Distributor') ? users :
+        users.filter(u => u.createdBy === currentUsername);
+
+      visibleUsers.forEach(u => {
         const tr = document.createElement('tr');
         tr.innerHTML = `<td>${u.role}</td><td>${u.username}</td><td>${u.name}</td><td>${u.mobile}</td><td>${u.pan}</td><td>${u.aadhaar}</td><td>${u.address}</td>`;
         tbody.appendChild(tr);
       });
+
       document.getElementById('userListSection').style.display = 'block';
     }
 
