@@ -7,15 +7,16 @@
   <style>
     body { font-family:'Segoe UI', sans-serif; background:linear-gradient(to right,#e0f7fa,#fce4ec); margin:0; padding:0; }
     header { background-color:#4a148c; color:white; padding:20px; text-align:center; font-size:28px; }
-    .login { background:#fff; margin:30px auto; padding:20px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-    .login input[type="text"], .login input[type="password"] { width:100%; padding:12px; margin:8px 0; border:1px solid #aaa; border-radius:5px; }
-    .login input[type="button"] { width:100%; padding:12px; background:#7b1fa2; color:#fff; border:none; border-radius:5px; font-size:16px; cursor:pointer; }
+    .login, .register { background:#fff; margin:30px auto; padding:20px; border-radius:10px; width:90%; max-width:400px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+    .login input, .register input { width:100%; padding:12px; margin:8px 0; border:1px solid #aaa; border-radius:5px; }
+    .login input[type="button"], .register input[type="button"] { background:#7b1fa2; color:#fff; font-size:16px; cursor:pointer; }
     .services { display:none; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px; padding:20px; }
     .service-card { background:#f3e5f5; border-radius:10px; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); font-size:16px; }
     .service-card img { width:60px; height:60px; margin-bottom:10px; }
     .role-display { text-align:center; font-size:20px; font-weight:bold; color:#4a148c; margin-top:10px; }
     .logout-btn { display:block; margin:10px auto; padding:10px 20px; background:#d32f2f; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px; }
     footer { background-color:#4a148c; color:white; text-align:center; padding:15px; margin-top:40px; }
+    .register { display:none; }
   </style>
 </head>
 <body>
@@ -27,6 +28,17 @@
     <input type="text" placeholder="Username" id="username"><br>
     <input type="password" placeholder="Password" id="password"><br>
     <input type="button" value="Login" id="loginBtn">
+  </div>
+
+  <div class="register" id="registerForm">
+    <h2>Create ID</h2>
+    <select id="newRole">
+      <option value="Retailer">Retailer</option>
+      <option value="Distributor">Distributor</option>
+    </select>
+    <input type="text" placeholder="New Username" id="newUsername"><br>
+    <input type="password" placeholder="New Password" id="newPassword"><br>
+    <input type="button" value="Create ID" onclick="createAccount()">
   </div>
 
   <div class="role-display" id="roleDisplay"></div>
@@ -56,12 +68,11 @@
     document.getElementById('loginBtn').addEventListener('click', function () {
       const user = document.getElementById('username').value.trim();
       const pass = document.getElementById('password').value.trim();
-      // Master login (Super Distributor)
       if (user === 'CRTECH' && pass === 'CRTECH') {
         showServices('Super Distributor');
+        document.getElementById('registerForm').style.display = 'block';
         return;
       }
-      // Check localStorage for Distributor / Retailer
       const users = JSON.parse(localStorage.getItem('userAccounts') || '[]');
       const match = users.find(u => u.username === user && u.password === pass);
       if (match) {
@@ -71,9 +82,22 @@
       }
     });
 
+    function createAccount() {
+      const role = document.getElementById('newRole').value;
+      const newUser = document.getElementById('newUsername').value.trim();
+      const newPass = document.getElementById('newPassword').value.trim();
+      if (!newUser || !newPass) return alert('Please enter valid username and password');
+      const users = JSON.parse(localStorage.getItem('userAccounts') || '[]');
+      if (users.find(u => u.username === newUser)) return alert('Username already exists');
+      users.push({ username: newUser, password: newPass, role });
+      localStorage.setItem('userAccounts', JSON.stringify(users));
+      alert(role + ' ID created successfully!');
+    }
+
     document.getElementById('logoutBtn').addEventListener('click', function () {
       document.getElementById('services').style.display = 'none';
       document.querySelector('.login').style.display = 'block';
+      document.getElementById('registerForm').style.display = 'none';
       document.getElementById('roleDisplay').textContent = '';
       document.getElementById('logoutBtn').style.display = 'none';
       document.getElementById('username').value = '';
