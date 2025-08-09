@@ -1,171 +1,132 @@
-<!doctype html>
-<html lang="te">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CRTECH-ROLLA</title>
-  <style>
-    :root{--bg:#0f172a;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071027 0%, #0b2540 60%);color:#e6eef6}
-    .wrap{max-width:1100px;margin:28px auto;padding:18px}
-    header{display:flex;align-items:center;gap:16px}
-    .logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,#06b6d4,#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#05122a}
-    h1{margin:0;font-size:22px}
-    .grid{display:grid;grid-template-columns:360px 1fr;gap:18px;margin-top:18px}
-    .card{background:rgba(255,255,255,0.03);border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.5)}
-    label{display:block;font-size:13px;color:var(--muted);margin-top:8px}
-    input,select,button,textarea{width:100%;padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.03);color:inherit;outline:none}
-    .muted{color:var(--muted);font-size:13px}
-    .btn{background:var(--accent);color:#041023;border-radius:10px;padding:10px 12px;border:none;cursor:pointer;margin-top:10px}
-    .row{display:flex;gap:8px}
-    table{width:100%;border-collapse:collapse;margin-top:10px}
-    th,td{padding:10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px}
-    .tag{display:inline-block;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px}
-    .actions button{margin-right:6px}
-    .hidden{display:none}
-    .logos{display:flex;gap:8px;margin-top:8px}
-    .logos img{height:36px;border-radius:6px;background:rgba(255,255,255,0.02);padding:4px}
-    .notice{font-size:13px;color:#bfeaf7;margin-top:8px}
-    footer{margin-top:20px;color:var(--muted);font-size:13px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr} .logo{width:58px;height:58px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRTECH-ROLLA — Super Distributor Dashboard</title>
+<style>
+    * {margin:0; padding:0; box-sizing:border-box; font-family:sans-serif;}
+    body {display:flex; background:#f4f6fb; min-height:100vh;}
+    /* Sidebar */
+    .sidebar {
+        width:240px;
+        background:linear-gradient(180deg, #4b6cb7, #182848);
+        color:#fff;
+        display:flex;
+        flex-direction:column;
+        padding-top:20px;
+    }
+    .sidebar h2 {
+        text-align:center;
+        margin-bottom:20px;
+        font-size:22px;
+        font-weight:bold;
+    }
+    .menu a {
+        display:flex;
+        align-items:center;
+        padding:12px 20px;
+        color:#fff;
+        text-decoration:none;
+        font-size:15px;
+        transition:background 0.3s;
+    }
+    .menu a:hover {
+        background:rgba(255,255,255,0.15);
+        border-left:4px solid #00d4ff;
+    }
+    .menu a i {
+        margin-right:10px;
+        font-size:18px;
+    }
+    /* Main content */
+    .main {
+        flex:1;
+        display:flex;
+        flex-direction:column;
+    }
+    .topbar {
+        background:#fff;
+        padding:15px 20px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        box-shadow:0 2px 4px rgba(0,0,0,0.1);
+    }
+    .topbar h1 {font-size:20px;}
+    .balance {
+        background:linear-gradient(90deg,#36d1dc,#5b86e5);
+        padding:8px 15px;
+        border-radius:20px;
+        color:#fff;
+        font-weight:bold;
+        box-shadow:0 2px 5px rgba(0,0,0,0.2);
+    }
+    /* Stats cards */
+    .cards {
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+        gap:20px;
+        padding:20px;
+    }
+    .card {
+        padding:20px;
+        border-radius:12px;
+        color:#fff;
+        box-shadow:0 4px 8px rgba(0,0,0,0.15);
+    }
+    .pending {background:linear-gradient(135deg,#f7971e,#ffd200);}
+    .completed {background:linear-gradient(135deg,#00b09b,#96c93d);}
+    .rejected {background:linear-gradient(135deg,#eb3349,#f45c43);}
+    .objection {background:linear-gradient(135deg,#56ccf2,#2f80ed);}
+    .card h3 {font-size:18px; margin-bottom:8px;}
+    .card p {font-size:24px; font-weight:bold;}
+    /* Responsive */
+    @media(max-width:768px){
+        .sidebar {width:70px;}
+        .sidebar h2 {display:none;}
+        .menu a span {display:none;}
+        .menu a {justify-content:center;}
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo">CR<br/>R</div>
-      <div>
-        <h1>CRTECH-ROLLA</h1>
-      </div>
-    </header>
-
-    <div class="grid">
-      <div class="card" id="leftCard">
-        <div id="loginBox">
-          <h3>Login</h3>
-          <label>Username</label>
-          <input id="loginUser" placeholder="Enter username (e.g., dist1, retailer1)" />
-          <label>Password</label>
-          <input id="loginPass" type="password" placeholder="Enter password" />
-          <label>Role</label>
-          <select id="loginRole">
-            <option value="SuperDistributor">Super Distributor</option>
-            <option value="Distributor">Distributor</option>
-            <option value="Retailer">Retailer</option>
-          </select>
-          <button class="btn" onclick="login()">Login</button>
-          <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)" />
-          <h3>Create initial sample accounts</h3>
-          <div class="muted">Click to create demo accounts.</div>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="btn" onclick="createSample()">Create Samples</button>
-            <button onclick="resetAll()" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;padding:10px;border-radius:8px">Reset All</button>
-          </div>
+    <div class="sidebar">
+        <h2>CRTECH</h2>
+        <div class="menu">
+            <a href="#"><i class="fa fa-user-plus"></i> <span>Create/Edit Distributors</span></a>
+            <a href="#"><i class="fa fa-users"></i> <span>Create/Edit Retailers</span></a>
+            <a href="#"><i class="fa fa-list"></i> <span>View Orders</span></a>
+            <a href="#"><i class="fa fa-wallet"></i> <span>Wallet</span></a>
+            <a href="#"><i class="fa fa-chart-line"></i> <span>Reports</span></a>
+            <a href="#"><i class="fa fa-headset"></i> <span>Support</span></a>
         </div>
-      </div>
-
-      <div class="card" id="rightCard">
-        <div id="dashboardIntro">
-          <h3>Public Links / Services</h3>
-          <div class="muted">These remain visible for all roles.</div>
-          <ul>
-            <li><a href="#">SSC Hall Tickets</a></li>
-            <li><a href="#">Meeseva Services</a></li>
-            <li><a href="#">APPSC</a></li>
-          </ul>
-        </div>
-
-        <div id="userPanel" class="hidden">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <h3 id="panelTitle">Dashboard</h3>
-            <div>
-              <span class="muted" id="loggedAs"></span>
-              <button onclick="logout()" style="margin-left:10px">Logout</button>
-            </div>
-          </div>
-
-          <div id="controls" style="margin-top:12px">
-            <div class="muted">Actions:</div>
-            <div id="actionsArea" style="margin-top:8px"></div>
-          </div>
-
-          <div id="usersListSection">
-            <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)" />
-            <h4>Users List</h4>
-            <table id="usersTable">
-              <thead>
-                <tr>
-                  <th>Name</th><th>Username</th><th>Role</th><th>Assigned To</th><th>Actions</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
     </div>
-    <footer class="muted">Client-side demo only.</footer>
-  </div>
 
-  <script>
-    const STORAGE_KEY = 'crtech_users_v1';
-    let currentUser = null;
-    function loadUsers(){return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');}
-    function saveUsers(arr){localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));}
-    function createSample(){
-      saveUsers([
-        {name:'CRTECH Admin',username:'CRTECH',password:'CRTECH123',role:'SuperDistributor',parent:null},
-        {name:'Dist One',username:'dist1',password:'dist123',role:'Distributor',parent:'CRTECH'},
-        {name:'Retail One',username:'retail1',password:'retail123',role:'Retailer',parent:'dist1'}
-      ]);
-      alert('Samples ready');
-    }
-    function resetAll(){localStorage.removeItem(STORAGE_KEY);alert('Reset done');logout();}
-    function login(){
-      const u=document.getElementById('loginUser').value.trim();
-      const p=document.getElementById('loginPass').value;
-      const r=document.getElementById('loginRole').value;
-      const f=loadUsers().find(x=>x.username===u&&x.password===p&&x.role===r);
-      if(f){currentUser=f;showDashboard();}else alert('Invalid');
-    }
-    function logout(){
-      currentUser=null;
-      document.getElementById('userPanel').classList.add('hidden');
-      document.getElementById('dashboardIntro').classList.remove('hidden');
-    }
-    function showDashboard(){
-      document.getElementById('dashboardIntro').classList.add('hidden');
-      document.getElementById('userPanel').classList.remove('hidden');
-      document.getElementById('loggedAs').textContent=`Logged in: ${currentUser.name} (${currentUser.role})`;
-      document.getElementById('panelTitle').textContent=`${currentUser.role} Panel`;
-      setupActionsForRole();
-      if(currentUser.role==='Retailer'){
-        document.getElementById('usersListSection').classList.add('hidden');
-      } else {
-        document.getElementById('usersListSection').classList.remove('hidden');
-        renderUsersTable();
-      }
-    }
-    function setupActionsForRole(){
-      const a=document.getElementById('actionsArea');
-      a.innerHTML='';
-      if(currentUser.role==='SuperDistributor'){
-        a.innerHTML+='<div class="muted">Full access</div>';
-      } else if(currentUser.role==='Distributor'){
-        a.innerHTML+='<div class="muted">Distributor actions</div>';
-      } else {
-        a.innerHTML='<div class="muted">Services only</div>';
-      }
-    }
-    function renderUsersTable(){
-      const tb=document.querySelector('#usersTable tbody');
-      tb.innerHTML='';
-      loadUsers().forEach(u=>{
-        const tr=document.createElement('tr');
-        tr.innerHTML=`<td>${u.name}</td><td>${u.username}</td><td><span class="tag">${u.role}</span></td><td>${u.parent||'-'}</td><td><span class=muted>-</span></td>`;
-        tb.appendChild(tr);
-      });
-    }
-  </script>
+    <div class="main">
+        <div class="topbar">
+            <h1>Super Distributor Dashboard</h1>
+            <div class="balance">Balance: ₹12,500</div>
+        </div>
+        <div class="cards">
+            <div class="card pending">
+                <h3>Pending</h3>
+                <p>24</p>
+            </div>
+            <div class="card completed">
+                <h3>Completed</h3>
+                <p>102</p>
+            </div>
+            <div class="card rejected">
+                <h3>Rejected</h3>
+                <p>8</p>
+            </div>
+            <div class="card objection">
+                <h3>Objection</h3>
+                <p>5</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
