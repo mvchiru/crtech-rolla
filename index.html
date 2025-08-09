@@ -1,149 +1,299 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="te">
 <head>
-  <meta charset="UTF-8">
-  <title>CRTECH‑ROLLA</title>
-  <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CRTECH-ROLLA — Login & Role Management</title>
   <style>
-    body {
-      font-family:'Segoe UI', sans-serif;
-      background:linear-gradient(to right,#e0f7fa,#fce4ec);
-      margin:0; padding:0;
-    }
-    header {
-      background-color:#4a148c;
-      color:white;
-      padding:20px;
-      text-align:center;
-      font-size:28px;
-    }
-    .login {
-      background:#fff;
-      margin:30px auto;
-      padding:20px;
-      border-radius:10px;
-      width:90%;
-      max-width:400px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    }
-    .login input[type="text"],
-    .login input[type="password"] {
-      width:100%;
-      padding:12px;
-      margin:8px 0;
-      border:1px solid #aaa;
-      border-radius:5px;
-    }
-    .login input[type="button"] {
-      width:100%;
-      padding:12px;
-      background:#7b1fa2;
-      color:#fff;
-      border:none;
-      border-radius:5px;
-      font-size:16px;
-      cursor:pointer;
-    }
-    .services,
-    .super-distributor {
-      display:none;
-      padding:20px;
-    }
-    .services {
-      display: none;
-      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-      gap:15px;
-    }
-    .service-card,
-    .super-card {
-      background:#f3e5f5;
-      border-radius:10px;
-      padding:15px;
-      text-align:center;
-      box-shadow:0 2px 6px rgba(0,0,0,0.1);
-      font-size:16px;
-    }
-    .service-card img,
-    .super-card img {
-      width:60px;
-      height:60px;
-      margin-bottom:10px;
-    }
-    footer {
-      background-color:#4a148c;
-      color:white;
-      text-align:center;
-      padding:15px;
-      margin-top:40px;
-    }
+    :root{--bg:#0f172a;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071027 0%, #0b2540 60%);color:#e6eef6}
+    .wrap{max-width:1100px;margin:28px auto;padding:18px}
+    header{display:flex;align-items:center;gap:16px}
+    .logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,#06b6d4,#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#05122a}
+    h1{margin:0;font-size:22px}
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:18px;margin-top:18px}
+    .card{background:rgba(255,255,255,0.03);border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.5)}
+    label{display:block;font-size:13px;color:var(--muted);margin-top:8px}
+    input,select,button,textarea{width:100%;padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.03);color:inherit;outline:none}
+    .muted{color:var(--muted);font-size:13px}
+    .btn{background:var(--accent);color:#041023;border-radius:10px;padding:10px 12px;border:none;cursor:pointer;margin-top:10px}
+    .row{display:flex;gap:8px}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{padding:10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);font-size:14px}
+    .tag{display:inline-block;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px}
+    .actions button{margin-right:6px}
+    .hidden{display:none}
+    .logos{display:flex;gap:8px;margin-top:8px}
+    .logos img{height:36px;border-radius:6px;background:rgba(255,255,255,0.02);padding:4px}
+    .notice{font-size:13px;color:#bfeaf7;margin-top:8px}
+    footer{margin-top:20px;color:var(--muted);font-size:13px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr} .logo{width:58px;height:58px}}
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <div class="logo">CR<br/>R</div>
+      <div>
+        <h1>CRTECH-ROLLA — Role-based Login & Management</h1>
+        <div class="muted">Master login: <strong>CRTECH</strong> | Master password: <strong>CRTECH123</strong></div>
+      </div>
+    </header>
 
-  <header>CRTECH - ROLLA</header>
+    <div class="grid">
+      <!-- LEFT: Login / Create User -->
+      <div class="card" id="leftCard">
+        <div id="loginBox">
+          <h3>Login</h3>
+          <label>Username</label>
+          <input id="loginUser" placeholder="Enter username (e.g., CRTECH, dist1, retailer1)" />
+          <label>Password</label>
+          <input id="loginPass" type="password" placeholder="Enter password" />
+          <label>Role</label>
+          <select id="loginRole"><option value="SuperDistributor">Super Distributor</option><option value="Distributor">Distributor</option><option value="Retailer">Retailer</option></select>
+          <button class="btn" onclick="login()">Login</button>
 
-  <div class="login">
-    <h2>Login</h2>
-    <input type="text" placeholder="Username" id="username"><br>
-    <input type="password" placeholder="Password" id="password"><br>
-    <input type="button" value="Login" id="loginBtn">
+          <div class="notice">Tip: Use master credentials to access Super Distributor: <strong>CRTECH / CRTECH123</strong></div>
+          <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)" />
+
+          <h3>Create initial sample accounts</h3>
+          <div class="muted">Click to create demo Super Distributor, Distributor, and Retailer (stored in your browser).</div>
+          <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="createSample()">Create Samples</button><button onclick="resetAll()" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;padding:10px;border-radius:8px">Reset All</button></div>
+        </div>
+
+        <div id="createBox" class="hidden">
+          <h3 id="createTitle">Create User</h3>
+          <label>Name</label>
+          <input id="newName" placeholder="Full name" />
+          <label>Username</label>
+          <input id="newUsername" placeholder="unique username" />
+          <label>Password</label>
+          <input id="newPassword" type="password" placeholder="password" />
+          <label>Role</label>
+          <select id="newRole"><option value="Distributor">Distributor</option><option value="Retailer">Retailer</option></select>
+
+          <div id="parentSelectBox" class="hidden">
+            <label>Assign to Distributor</label>
+            <select id="assignParent"></select>
+          </div>
+
+          <button class="btn" onclick="saveNewUser()">Save User</button>
+          <button style="margin-left:8px" onclick="cancelCreate()">Cancel</button>
+        </div>
+
+        <div style="margin-top:12px" class="logos card">
+          <strong class="muted">Department logos (placeholders):</strong>
+          <div class="logos">
+            <img src="https://via.placeholder.com/140x40?text=Meeseva" alt="Meeseva"/>
+            <img src="https://via.placeholder.com/140x40?text=SSC" alt="SSC"/>
+            <img src="https://via.placeholder.com/140x40?text=APPSC" alt="APPSC"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Dashboard -->
+      <div class="card" id="rightCard">
+        <div id="dashboardIntro">
+          <h3>Public Links / Services</h3>
+          <div class="muted">These links remain visible after login as requested.</div>
+          <ul>
+            <li><a href="#" onclick="alert('Open SSC Hall Tickets link')">SSC Hall Tickets</a></li>
+            <li><a href="#" onclick="alert('Open Meeseva services')">Meeseva Services</a></li>
+            <li><a href="#" onclick="alert('Open APPSC')">APPSC</a></li>
+          </ul>
+        </div>
+
+        <div id="userPanel" class="hidden">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3 id="panelTitle">Dashboard</h3>
+            <div>
+              <span class="muted" id="loggedAs"></span>
+              <button onclick="logout()" style="margin-left:10px">Logout</button>
+            </div>
+          </div>
+
+          <div id="controls" style="margin-top:12px">
+            <div class="muted">Actions available for your role:</div>
+            <div id="actionsArea" style="margin-top:8px"></div>
+          </div>
+
+          <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)" />
+
+          <h4>Users List</h4>
+          <table id="usersTable">
+            <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Assigned To</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="muted">This is a client-side demo. To make it production-ready deploy to Netlify/Glitch and replace demo storage with a server or Firebase for real authentication and data.</footer>
   </div>
-
-  <!-- ✅ SUPER DISTRIBUTOR PANEL -->
-  <section class="super-distributor" id="superPanel">
-  <div class="super-card">
-    <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" alt="Super"><br>
-    <strong>🔒 Super Distributor Panel</strong><br><br>
-    
-    <button onclick="alert('Create/Edit Distributors clicked')" style="margin:10px; padding:10px 15px; font-size:16px; border-radius:8px; background:#6a1b9a; color:#fff; border:none;">
-      👥 Create/Edit Distributors
-    </button><br>
-    
-    <button onclick="alert('Create/Edit Retailers clicked')" style="margin:10px; padding:10px 15px; font-size:16px; border-radius:8px; background:#6a1b9a; color:#fff; border:none;">
-      🛒 Create/Edit Retailers
-    </button><br>
-    
-    <button onclick="alert('View Full List clicked')" style="margin:10px; padding:10px 15px; font-size:16px; border-radius:8px; background:#6a1b9a; color:#fff; border:none;">
-      📋 View Full List
-    </button>
-  </div>
-</section>
-
-  <!-- ✅ SERVICES SECTION -->
-  <section class="services" id="services">
-    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/en/e/e1/Mee_Seva_logo.png" alt="MeeSeva"><br>Meeseva Services</div>
-    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/en/e/e8/Andhra_Pradesh_Public_Service_Commission_logo.png" alt="APPSC"><br>APPSC</div>
-    <div class="service-card"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Emblem_of_Andhra_Pradesh.svg" alt="AP Govt"><br>Aadhar Services</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2138/2138318.png" alt="Caste"><br>Caste Certificate</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2242/2242269.png" alt="Residence"><br>Residence Certificate</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991116.png" alt="Voter"><br>Voter ID</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/4149/4149683.png" alt="Ration"><br>Ration Card</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1063/1063191.png" alt="Adangal"><br>Land Records (Adangal)</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/3523/3523063.png" alt="Health"><br>Health Card</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/619/619034.png" alt="Spandana"><br>Spandana</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1865/1865269.png" alt="Police"><br>Police Clearance</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/2618/2618274.png" alt="Transport"><br>Transport & License</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="Housing"><br>Housing Schemes</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/1198/1198363.png" alt="Scholarships"><br>Scholarships</div>
-    <div class="service-card"><img src="https://cdn-icons-png.flaticon.com/512/858/858880.png" alt="Pay Slips"><br>Employee Pay Slips</div>
-  </section>
-
-  <footer>© 2025 CRTECH - ROLLA | Developed with 💜 in Andhra Pradesh</footer>
 
   <script>
-    document.getElementById('loginBtn').addEventListener('click', function() {
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
-      if (user === 'CRTECH' && pass === 'CRTECH') {
-        document.querySelector('.login').style.display = 'none';
-        document.getElementById('services').style.display = 'grid';
-        document.getElementById('superPanel').style.display = 'block';
-        window.scrollTo({ top: document.getElementById('superPanel').offsetTop, behavior: 'smooth' });
-      } else {
-        alert('Invalid credentials. Please try again.');
-      }
-    });
-  </script>
+    // Simple client-side role system with localStorage persistence.
+    const STORAGE_KEY = 'crtech_users_v1';
+    let currentUser = null; // {username,role,name,parent}
 
+    function loadUsers(){
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }
+    function saveUsers(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+    function createSample(){
+      const users = [
+        {name:'CRTECH Admin', username:'CRTECH', password:'CRTECH123', role:'SuperDistributor', parent:null},
+        {name:'Dist One', username:'dist1', password:'dist123', role:'Distributor', parent:'CRTECH'},
+        {name:'Retail One', username:'retail1', password:'retail123', role:'Retailer', parent:'dist1'}
+      ];
+      saveUsers(users); alert('Sample accounts created. Login with CRTECH / CRTECH123');
+      renderUsersTable();
+    }
+
+    function resetAll(){ if(confirm('Erase all stored users and sample data?')){ localStorage.removeItem(STORAGE_KEY); alert('Reset done'); renderUsersTable(); logout(); } }
+
+    function login(){
+      const u = document.getElementById('loginUser').value.trim();
+      const p = document.getElementById('loginPass').value;
+      const role = document.getElementById('loginRole').value;
+      const users = loadUsers();
+      const found = users.find(x => x.username===u && x.password===p && x.role===role);
+      if(found){ currentUser = {...found}; showDashboard(); }
+      else{ alert('Credentials not found. Make sure role is correct. You can create sample accounts if starting fresh.'); }
+    }
+
+    function logout(){ currentUser=null; document.getElementById('userPanel').classList.add('hidden'); document.getElementById('dashboardIntro').classList.remove('hidden'); document.getElementById('leftCard').querySelector('#createBox').classList.add('hidden'); document.getElementById('leftCard').querySelector('#loginBox').classList.remove('hidden'); }
+
+    function showDashboard(){
+      document.getElementById('dashboardIntro').classList.add('hidden');
+      document.getElementById('userPanel').classList.remove('hidden');
+      document.getElementById('loggedAs').textContent = `Logged in: ${currentUser.name} (${currentUser.role})`;
+      document.getElementById('panelTitle').textContent = `${currentUser.role} Panel`;
+      setupActionsForRole();
+      renderUsersTable();
+      document.getElementById('leftCard').querySelector('#loginBox').classList.add('hidden');
+    }
+
+    function setupActionsForRole(){
+      const actions = document.getElementById('actionsArea'); actions.innerHTML='';
+      if(currentUser.role==='SuperDistributor'){
+        actions.innerHTML += '<button class="btn" onclick="openCreate(\'Distributor\')">Create Distributor</button> ';
+        actions.innerHTML += '<button class="btn" onclick="openCreate(\'Retailer\')">Create Retailer</button> ';
+      } else if(currentUser.role==='Distributor'){
+        actions.innerHTML += '<button class="btn" onclick="openCreate(\'Retailer\')">Create Retailer</button> ';
+      } else {
+        actions.innerHTML = '<div class="muted">Retailers cannot create users.</div>';
+      }
+    }
+
+    function openCreate(role){
+      document.getElementById('createBox').classList.remove('hidden');
+      document.getElementById('createTitle').textContent = `Create ${role}`;
+      document.getElementById('newRole').value = role;
+      // populate parent distributors for assignment if creating Retailer
+      const users = loadUsers();
+      const distSelect = document.getElementById('assignParent');
+      distSelect.innerHTML='';
+      const distributors = users.filter(u => u.role==='Distributor');
+      distributors.forEach(d => { const op=document.createElement('option'); op.value=d.username; op.textContent=d.name + ' ('+d.username+')'; distSelect.appendChild(op); });
+      if(role==='Retailer'){
+        document.getElementById('parentSelectBox').classList.remove('hidden');
+        // if current user is Distributor, auto-assign
+        if(currentUser.role==='Distributor'){
+          distSelect.innerHTML=''; const op=document.createElement('option'); op.value=currentUser.username; op.textContent = currentUser.name + ' ('+currentUser.username+')'; distSelect.appendChild(op);
+        }
+      } else { document.getElementById('parentSelectBox').classList.add('hidden'); }
+      document.getElementById('createBox').scrollIntoView({behavior:'smooth'});
+    }
+    function cancelCreate(){ document.getElementById('createBox').classList.add('hidden'); }
+
+    function saveNewUser(){
+      const name = document.getElementById('newName').value.trim();
+      const username = document.getElementById('newUsername').value.trim();
+      const password = document.getElementById('newPassword').value || '12345';
+      const role = document.getElementById('newRole').value;
+      const parent = role==='Retailer' ? document.getElementById('assignParent').value : (role==='Distributor' ? currentUser.username : null);
+      if(!name || !username){ alert('Please fill name and username'); return; }
+      const users = loadUsers();
+      if(users.find(u=>u.username===username)){ alert('Username already exists. Choose another.'); return; }
+      const newUser = {name, username, password, role, parent: parent || null};
+      users.push(newUser); saveUsers(users); alert('User created'); document.getElementById('createBox').classList.add('hidden'); renderUsersTable();
+    }
+
+    function renderUsersTable(){
+      const tbody = document.querySelector('#usersTable tbody'); tbody.innerHTML='';
+      const users = loadUsers();
+      users.forEach(u =>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${u.name}</td><td>${u.username}</td><td><span class="tag">${u.role}</span></td><td>${u.parent || '-'}</td><td class="actions"></td>`;
+        const actionsCell = tr.querySelector('.actions');
+        // determine visibility of edit/delete based on currentUser
+        const canEdit = canCurrentEdit(u);
+        if(canEdit){
+          const btnE = document.createElement('button'); btnE.textContent='Edit'; btnE.onclick = ()=>editUser(u.username);
+          const btnD = document.createElement('button'); btnD.textContent='Delete'; btnD.onclick = ()=>deleteUser(u.username);
+          actionsCell.appendChild(btnE); actionsCell.appendChild(btnD);
+        } else { actionsCell.innerHTML = '<span class="muted">No actions</span>'; }
+        tbody.appendChild(tr);
+      });
+    }
+
+    function canCurrentEdit(targetUser){
+      if(!currentUser) return false;
+      if(currentUser.role==='SuperDistributor') return true; // full control
+      if(currentUser.role==='Distributor'){
+        // Distributor can edit/delete only their own Retailers
+        return targetUser.role==='Retailer' && targetUser.parent===currentUser.username;
+      }
+      return false; // Retailers cannot edit
+    }
+
+    function editUser(username){
+      const users = loadUsers(); const u = users.find(x=>x.username===username);
+      if(!u) return alert('User not found');
+      // open create box prefilled
+      document.getElementById('createBox').classList.remove('hidden');
+      document.getElementById('createTitle').textContent = `Edit ${u.role}`;
+      document.getElementById('newName').value = u.name;
+      document.getElementById('newUsername').value = u.username; document.getElementById('newUsername').disabled = true;
+      document.getElementById('newPassword').value = u.password;
+      document.getElementById('newRole').value = u.role;
+      if(u.role==='Retailer'){
+        document.getElementById('parentSelectBox').classList.remove('hidden');
+        const distSelect = document.getElementById('assignParent'); distSelect.innerHTML='';
+        const distributors = users.filter(x=>x.role==='Distributor');
+        distributors.forEach(d=>{ const op=document.createElement('option'); op.value=d.username; op.textContent=d.name+' ('+d.username+')'; if(d.username===u.parent) op.selected=true; distSelect.appendChild(op); });
+      } else document.getElementById('parentSelectBox').classList.add('hidden');
+
+      // change Save button to update
+      const saveBtn = document.querySelector('#createBox .btn');
+      saveBtn.textContent = 'Update User';
+      saveBtn.onclick = function(){
+        const name = document.getElementById('newName').value.trim();
+        const password = document.getElementById('newPassword').value || u.password;
+        const parent = document.getElementById('newRole').value==='Retailer' ? document.getElementById('assignParent').value : null;
+        if(!name){ alert('Name required'); return; }
+        u.name = name; u.password = password; u.parent = parent;
+        saveUsers(users); alert('User updated'); document.getElementById('newUsername').disabled=false; saveBtn.textContent='Save User'; saveBtn.onclick = saveNewUser; document.getElementById('createBox').classList.add('hidden'); renderUsersTable();
+      };
+    }
+
+    function deleteUser(username){
+      if(!confirm('Delete user '+username+' ? This action cannot be undone.')) return;
+      let users = loadUsers();
+      // If deleting distributor, also delete their retailers
+      const target = users.find(u=>u.username===username);
+      if(!target) return alert('Not found');
+      users = users.filter(u=> u.username!==username && u.parent!==username);
+      saveUsers(users); alert('Deleted. (If deleting a Distributor, its Retailers were also removed)'); renderUsersTable();
+    }
+
+    // init
+    renderUsersTable();
+  </script>
 </body>
 </html>
