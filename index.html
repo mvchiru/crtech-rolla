@@ -1,129 +1,343 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="te">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRTECH-ROLLA Login</title>
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f9f9f9;
-    }
-    /* Header */
-    header {
-        background: #4a6cf7;
-        color: white;
-        padding: 10px 50px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    header .logo {
-        font-weight: bold;
-        font-size: 20px;
-    }
-    nav a {
-        color: white;
-        margin-left: 20px;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    nav a:hover {
-        text-decoration: underline;
-    }
-    /* Login Box */
-    .login-container {
-        background: white;
-        max-width: 400px;
-        margin: 80px auto;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-        text-align: center;
-    }
-    .login-container h2 {
-        color: #4a6cf7;
-        margin-bottom: 20px;
-    }
-    input {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        background: #e9f0ff;
-    }
-    .btn-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    button {
-        padding: 12px 25px;
-        border: none;
-        background: #4a6cf7;
-        color: white;
-        font-size: 16px;
-        border-radius: 50px;
-        cursor: pointer;
-    }
-    button:hover {
-        background: #344ec9;
-    }
-    .forgot-link {
-        font-size: 14px;
-        color: #4a6cf7;
-        text-decoration: none;
-    }
-    .forgot-link:hover {
-        text-decoration: underline;
-    }
-    .error {
-        color: red;
-        font-size: 14px;
-        margin-top: 10px;
-        display: none;
-    }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CRTECH-ROLLA</title>
+  <style>
+    :root{--blue:#3b6df0;--muted:#94a3b8;--card:#ffffff;--bg1:#f5f9ff}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#eaf4ff 0%, #f8fbff 100%);color:#07203a}
+    header{background:var(--blue);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-weight:800;font-size:18px}
+    nav a{color:rgba(255,255,255,0.92);margin-left:18px;text-decoration:none;font-weight:600}
+    .wrap{max-width:1100px;margin:30px auto;padding:18px}
+
+    /* centered card */
+    .card{background:var(--card);border-radius:12px;padding:22px;box-shadow:0 8px 30px rgba(31,49,84,0.08)}
+    .login-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+    .login-box{max-width:420px;margin:auto}
+    input,select,textarea,button{font-size:15px}
+    label{display:block;margin-top:10px;color:var(--muted);font-size:13px}
+    input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef6;background:transparent}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:0;background:var(--blue);color:#fff;cursor:pointer}
+    .muted{color:var(--muted);font-size:13px}
+    .links{margin-top:10px}
+    .links a{color:var(--blue);text-decoration:none;margin-right:12px}
+
+    /* Dashboard */
+    .hidden{display:none}
+    .panel-grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .tile{background:#f7fbff;padding:14px;border-radius:10px;border:1px solid #eef6ff}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:10px;border-bottom:1px solid #f1f6fb;text-align:left}
+    .tag{background:#eef6ff;padding:6px 8px;border-radius:999px;color:var(--blue);font-weight:600}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* footer */
+    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+
+    @media(max-width:900px){.login-grid{grid-template-columns:1fr}.panel-grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-
-<header>
+  <header>
     <div class="logo">CRTECH-ROLLA</div>
     <nav>
-        <a href="#">HOME</a>
-        <a href="#">ABOUT</a>
-        <a href="#">SERVICES</a>
-        <a href="#">LOGIN</a>
-        <a href="#">CONTACT</a>
+      <a href="#" onclick="showHome()">HOME</a>
+      <a href="#" onclick="showAbout()">ABOUT</a>
+      <a href="#" onclick="showServices()">SERVICES</a>
+      <a href="#" onclick="showContact()">CONTACT</a>
     </nav>
-</header>
+  </header>
 
-<div class="login-container">
-    <h2>Login Here</h2>
-    <input type="text" id="username" placeholder="Enter Username">
-    <input type="password" id="password" placeholder="Enter Password">
-    <div class="btn-container">
-        <button onclick="login()">Login</button>
-        <a href="#" class="forgot-link">Forgot User Login / Password?</a>
+  <div class="wrap">
+    <!-- LOGIN CARD -->
+    <div id="loginCard" class="card">
+      <div class="login-grid">
+        <div class="login-box">
+          <h2 style="margin:0 0 8px 0">Login</h2>
+          <label>Username</label>
+          <input id="loginUser" placeholder="Enter Username (e.g., CRTECH, DIST1, RET1)" />
+          <label>Password</label>
+          <input id="loginPass" type="password" placeholder="Enter Password" />
+          <label>Role</label>
+          <select id="loginRole">
+            <option value="SuperDistributor">Super Distributor</option>
+            <option value="Distributor">Distributor</option>
+            <option value="Retailer">Retailer</option>
+          </select>
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="handleLogin()">Login</button>
+            <a href="#" onclick="openForgot()" class="small" style="margin-left:6px">Forgot User Login / Password?</a>
+          </div>
+          <p id="loginError" class="small" style="color:#c0392b;display:none;margin-top:8px">Invalid credentials. Try again.</p>
+        </div>
+        <div style="padding:10px">
+          <h3 style="margin-top:0">Public Links / Services</h3>
+          <div class="small">Useful AP Govt and exam links (visible always)</div>
+          <ul style="margin-top:10px">
+            <li><a href="#">SSC Hall Tickets</a></li>
+            <li><a href="#">Meeseva Services</a></li>
+            <li><a href="#">APPSC</a></li>
+          </ul>
+          <div style="margin-top:12px">
+            <strong class="small">Department logos</strong>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <img src="https://via.placeholder.com/120x36?text=Meeseva" alt="logo" />
+              <img src="https://via.placeholder.com/120x36?text=SSC" alt="logo" />
+              <img src="https://via.placeholder.com/120x36?text=APPSC" alt="logo" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="error" id="error-msg">Invalid credentials. Try again.</p>
-</div>
 
-<script>
-    function login() {
-        let user = document.getElementById("username").value.trim();
-        let pass = document.getElementById("password").value.trim();
-        
-        if(user === "CRTECH" && pass === "CRTECH") {
-            window.location.href = "home.html"; // Change to your home page link
-        } else {
-            document.getElementById("error-msg").style.display = "block";
-        }
+    <!-- DASHBOARD (after login) -->
+    <div id="dashboard" class="hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
+        <div>
+          <h2 id="dashTitle" style="margin:0">Welcome</h2>
+          <div class="small" id="dashSubtitle">Role panel</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn" onclick="openCreateUser()">Create User</button>
+          <button onclick="logout()" style="background:transparent;border:1px solid #dbeeff;padding:8px 12px;border-radius:8px;cursor:pointer">Logout</button>
+        </div>
+      </div>
+
+      <div class="panel-grid">
+        <div>
+          <div class="tile">
+            <h3 style="margin:0">Quick Actions</h3>
+            <div class="actions" id="quickActions" style="margin-top:10px"></div>
+          </div>
+
+          <div style="margin-top:12px" class="card">
+            <h3 style="margin:0 0 8px 0">Users List</h3>
+            <table id="usersTable"><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Assigned To</th><th>Actions</th></tr></thead><tbody></tbody></table>
+          </div>
+        </div>
+
+        <div>
+          <div class="tile">
+            <h4 style="margin:0">Services</h4>
+            <div class="small" style="margin-top:8px">Visible to all roles</div>
+            <ul style="margin-top:8px">
+              <li><a href="#">SSC Hall Tickets</a></li>
+              <li><a href="#">Meeseva Services</a></li>
+              <li><a href="#">APPSC</a></li>
+            </ul>
+          </div>
+
+          <div class="tile" style="margin-top:12px">
+            <h4 style="margin:0">Reports</h4>
+            <div style="margin-top:8px" class="small">Quick report links</div>
+            <div style="margin-top:8px"><button class="btn" onclick="alert('Open Orders Report')">Orders Report</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Client-side demo. For production replace with server auth & DB.</footer>
+  </div>
+
+  <!-- MODALS / FORGOT / CREATE -->
+  <div id="forgotModal" class="hidden" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,12,28,0.4)">
+    <div style="background:white;padding:18px;border-radius:10px;max-width:420px;width:100%">
+      <h3 style="margin-top:0">Forgot Username / Password</h3>
+      <p class="small">This demo cannot reset passwords. To simulate, use the sample accounts or contact your admin.</p>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button onclick="closeForgot()" class="btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="createModal" class="hidden" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,12,28,0.4)">
+    <div style="background:white;padding:18px;border-radius:10px;max-width:520px;width:100%">
+      <h3 id="createTitle">Create User</h3>
+      <label>Name</label>
+      <input id="c_name" />
+      <label>Username</label>
+      <input id="c_username" />
+      <label>Password</label>
+      <input id="c_password" />
+      <label>Role</label>
+      <select id="c_role"><option value="Distributor">Distributor</option><option value="Retailer">Retailer</option></select>
+      <div id="c_parent_box" class="hidden"><label>Assign to Distributor</label><select id="c_parent"></select></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button class="btn" onclick="saveCreate()">Save</button>
+        <button onclick="closeCreate()" style="background:transparent;border:1px solid #dbeeff;padding:8px 12px;border-radius:8px;cursor:pointer">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // client-side storage key and sample accounts
+    const STORAGE_KEY = 'crtech_users_v2';
+    let currentUser = null; // {username,role,name,parent}
+
+    // init sample users if none
+    function ensureSamples(){
+      const users = loadUsers();
+      if(users.length===0){
+        const samples=[
+          {name:'CRTECH Admin',username:'CRTECH',password:'CRTECH123',role:'SuperDistributor',parent:null},
+          {name:'Dist One',username:'DIST1',password:'DIST123',role:'Distributor',parent:'CRTECH'},
+          {name:'Retail One',username:'RET1',password:'RET123',role:'Retailer',parent:'DIST1'}
+        ]; saveUsers(samples);
+      }
     }
-</script>
 
+    function loadUsers(){return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');}
+    function saveUsers(u){localStorage.setItem(STORAGE_KEY, JSON.stringify(u));}
+
+    // Login handling
+    function handleLogin(){
+      const u=document.getElementById('loginUser').value.trim();
+      const p=document.getElementById('loginPass').value.trim();
+      const role=document.getElementById('loginRole').value;
+      const users=loadUsers();
+      const found = users.find(x=>x.username.toUpperCase()===u.toUpperCase() && x.password===p && x.role===role);
+      if(found){ currentUser=found; showDashboard(); document.getElementById('loginError').style.display='none'; }
+      else { document.getElementById('loginError').style.display='block'; }
+    }
+
+    function showDashboard(){
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('dashTitle').textContent = `Welcome ${currentUser.name}`;
+      document.getElementById('dashSubtitle').textContent = `${currentUser.role} Panel`;
+      setupQuickActions();
+      renderUsersTable();
+      // hide Create button for Retailer
+      if(currentUser.role==='Retailer') document.querySelector('button[onclick="openCreateUser()"]').style.display='none';
+      else document.querySelector('button[onclick="openCreateUser()"]').style.display='inline-block';
+    }
+
+    function logout(){ currentUser=null; document.getElementById('dashboard').classList.add('hidden'); document.getElementById('loginCard').classList.remove('hidden'); }
+
+    function setupQuickActions(){
+      const area=document.getElementById('quickActions'); area.innerHTML='';
+      if(currentUser.role==='SuperDistributor'){
+        area.innerHTML += '<button class="btn" onclick="openCreateUser(\'Distributor\')">Create Distributor</button>';
+        area.innerHTML += '<button class="btn" onclick="renderUsersTable()">View All Users</button>';
+      } else if(currentUser.role==='Distributor'){
+        area.innerHTML += '<button class="btn" onclick="openCreateUser(\'Retailer\')">Create Retailer</button>';
+        area.innerHTML += '<button class="btn" onclick="renderUsersTable()">View My Retailers</button>';
+      } else {
+        area.innerHTML += '<div class="small">Retailers can view services and place orders (demo)</div>';
+      }
+    }
+
+    // USERS table rendering and action visibility rules
+    function renderUsersTable(){
+      const tbody=document.querySelector('#usersTable tbody'); tbody.innerHTML='';
+      const users=loadUsers();
+      users.forEach(u=>{
+        // determine visibility
+        let show=true;
+        if(currentUser.role==='Distributor'){
+          // distributor sees only self and their retailers
+          show = (u.username===currentUser.username) || (u.parent===currentUser.username);
+        }
+        if(!show) return;
+        const tr=document.createElement('tr');
+        tr.innerHTML = `<td>${u.name}</td><td>${u.username}</td><td><span class="tag">${u.role}</span></td><td>${u.parent||'-'}</td><td class="actions"></td>`;
+        const actions = tr.querySelector('.actions');
+        // action rules
+        if(canCurrentEdit(u)){
+          const eBtn=document.createElement('button'); eBtn.textContent='Edit'; eBtn.onclick = ()=>editUser(u.username);
+          const dBtn=document.createElement('button'); dBtn.textContent='Delete'; dBtn.onclick = ()=>deleteUser(u.username);
+          actions.appendChild(eBtn); actions.appendChild(dBtn);
+        } else {
+          actions.innerHTML = '<span class="small">No actions</span>';
+        }
+        tbody.appendChild(tr);
+      });
+    }
+
+    function canCurrentEdit(target){
+      if(!currentUser) return false;
+      if(currentUser.role==='SuperDistributor') return true; // full
+      if(currentUser.role==='Distributor'){
+        return target.role==='Retailer' && target.parent===currentUser.username;
+      }
+      return false;
+    }
+
+    // Create / Edit modal
+    let editingUsername = null;
+    function openCreateUser(prefillRole){
+      editingUsername = null;
+      document.getElementById('createTitle').textContent = prefillRole? `Create ${prefillRole}` : 'Create User';
+      document.getElementById('c_name').value=''; document.getElementById('c_username').value=''; document.getElementById('c_password').value='';
+      if(prefillRole) document.getElementById('c_role').value = prefillRole; else document.getElementById('c_role').value='Distributor';
+      updateParentOptions();
+      document.getElementById('createModal').classList.remove('hidden');
+    }
+    function closeCreate(){ document.getElementById('createModal').classList.add('hidden'); }
+
+    function updateParentOptions(){
+      const users=loadUsers(); const distSelect=document.getElementById('c_parent'); distSelect.innerHTML='';
+      const distributors = users.filter(u=>u.role==='Distributor');
+      distributors.forEach(d=>{ const op=document.createElement('option'); op.value=d.username; op.textContent = d.name + ' ('+d.username+')'; distSelect.appendChild(op); });
+      // if current user is Distributor, auto select and hide
+      if(currentUser && currentUser.role==='Distributor'){
+        document.getElementById('c_parent_box').classList.remove('hidden'); distSelect.innerHTML=''; const op=document.createElement('option'); op.value=currentUser.username; op.textContent=currentUser.name+' ('+currentUser.username+')'; distSelect.appendChild(op); document.getElementById('c_parent_box').classList.remove('hidden');
+      }
+      // show parent box only if role is Retailer
+      document.getElementById('c_role').onchange = function(){ if(this.value==='Retailer') document.getElementById('c_parent_box').classList.remove('hidden'); else document.getElementById('c_parent_box').classList.add('hidden'); };
+      // initial
+      if(document.getElementById('c_role').value==='Retailer') document.getElementById('c_parent_box').classList.remove('hidden'); else document.getElementById('c_parent_box').classList.add('hidden');
+    }
+
+    function saveCreate(){
+      const name=document.getElementById('c_name').value.trim();
+      const username=document.getElementById('c_username').value.trim();
+      const password=document.getElementById('c_password').value.trim() || '12345';
+      const role=document.getElementById('c_role').value;
+      const parent = role==='Retailer' ? document.getElementById('c_parent').value : null;
+      if(!name || !username){ alert('Please fill name and username'); return; }
+      const users=loadUsers();
+      if(editingUsername){
+        const u = users.find(x=>x.username===editingUsername);
+        u.name=name; u.password=password; u.parent=parent; saveUsers(users); editingUsername=null; closeCreate(); renderUsersTable(); return;
+      }
+      if(users.find(x=>x.username.toUpperCase()===username.toUpperCase())){ alert('Username already exists'); return; }
+      // role restrictions: Distributor can only create Retailers (handled by UI) but double-check
+      if(currentUser.role==='Distributor' && role!=='Retailer'){ alert('Distributor can only create Retailers'); return; }
+      const newU={name,username,password,role,parent}; users.push(newU); saveUsers(users); closeCreate(); renderUsersTable();
+    }
+
+    function editUser(username){
+      const users=loadUsers(); const u=users.find(x=>x.username===username); if(!u) return alert('Not found');
+      // permission check
+      if(!canCurrentEdit(u) && currentUser.role!=='SuperDistributor') return alert('Not authorized');
+      editingUsername = username;
+      document.getElementById('createTitle').textContent = `Edit ${u.role}`;
+      document.getElementById('c_name').value = u.name; document.getElementById('c_username').value = u.username; document.getElementById('c_username').disabled = true; document.getElementById('c_password').value = u.password; document.getElementById('c_role').value = u.role;
+      updateParentOptions(); if(u.role==='Retailer') document.getElementById('c_parent').value = u.parent;
+      document.getElementById('createModal').classList.remove('hidden');
+    }
+
+    function deleteUser(username){ if(!confirm('Delete '+username+'? This cannot be undone.')) return; let users=loadUsers(); const target = users.find(u=>u.username===username); if(!target) return; // delete its children if distributor
+      users = users.filter(u=> u.username!==username && u.parent!==username); saveUsers(users); renderUsersTable(); }
+
+    // FORGOT modal
+    function openForgot(){ document.getElementById('forgotModal').classList.remove('hidden'); }
+    function closeForgot(){ document.getElementById('forgotModal').classList.add('hidden'); }
+
+    // helper: show static pages
+    function showHome(){ alert('Home — demo'); }
+    function showAbout(){ alert('About — demo'); }
+    function showServices(){ alert('Services — demo'); }
+    function showContact(){ alert('Contact — demo'); }
+
+    // init
+    ensureSamples();
+
+  </script>
 </body>
 </html>
