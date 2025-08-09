@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CRTECH-ROLLA — Login & Role Management</title>
+  <title>CRTECH-ROLLA</title>
   <style>
     :root{--bg:#0f172a;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8}
     body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071027 0%, #0b2540 60%);color:#e6eef6}
@@ -44,17 +44,23 @@
         <div id="loginBox">
           <h3>Login</h3>
           <label>Username</label>
-          <input id="loginUser" placeholder="Enter username (e.g., CRTECH, dist1, retailer1)" />
+          <input id="loginUser" placeholder="Enter username (e.g., dist1, retailer1)" />
           <label>Password</label>
           <input id="loginPass" type="password" placeholder="Enter password" />
           <label>Role</label>
-          <select id="loginRole"><option value="SuperDistributor">Super Distributor</option><option value="Distributor">Distributor</option><option value="Retailer">Retailer</option></select>
+          <select id="loginRole">
+            <option value="SuperDistributor">Super Distributor</option>
+            <option value="Distributor">Distributor</option>
+            <option value="Retailer">Retailer</option>
+          </select>
           <button class="btn" onclick="login()">Login</button>
-          <div class="notice">Tip: Use master credentials to access Super Distributor: <strong>CRTECH / CRTECH123</strong></div>
           <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)" />
           <h3>Create initial sample accounts</h3>
           <div class="muted">Click to create demo accounts.</div>
-          <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="createSample()">Create Samples</button><button onclick="resetAll()" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;padding:10px;border-radius:8px">Reset All</button></div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn" onclick="createSample()">Create Samples</button>
+            <button onclick="resetAll()" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit;padding:10px;border-radius:8px">Reset All</button>
+          </div>
         </div>
       </div>
 
@@ -87,7 +93,11 @@
             <hr style="margin:12px 0;border-color:rgba(255,255,255,0.03)" />
             <h4>Users List</h4>
             <table id="usersTable">
-              <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Assigned To</th><th>Actions</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>Name</th><th>Username</th><th>Role</th><th>Assigned To</th><th>Actions</th>
+                </tr>
+              </thead>
               <tbody></tbody>
             </table>
           </div>
@@ -102,13 +112,60 @@
     let currentUser = null;
     function loadUsers(){return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');}
     function saveUsers(arr){localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));}
-    function createSample(){saveUsers([{name:'CRTECH Admin',username:'CRTECH',password:'CRTECH123',role:'SuperDistributor',parent:null},{name:'Dist One',username:'dist1',password:'dist123',role:'Distributor',parent:'CRTECH'},{name:'Retail One',username:'retail1',password:'retail123',role:'Retailer',parent:'dist1'}]);alert('Samples ready');}
+    function createSample(){
+      saveUsers([
+        {name:'CRTECH Admin',username:'CRTECH',password:'CRTECH123',role:'SuperDistributor',parent:null},
+        {name:'Dist One',username:'dist1',password:'dist123',role:'Distributor',parent:'CRTECH'},
+        {name:'Retail One',username:'retail1',password:'retail123',role:'Retailer',parent:'dist1'}
+      ]);
+      alert('Samples ready');
+    }
     function resetAll(){localStorage.removeItem(STORAGE_KEY);alert('Reset done');logout();}
-    function login(){const u=document.getElementById('loginUser').value.trim();const p=document.getElementById('loginPass').value;const r=document.getElementById('loginRole').value;const f=loadUsers().find(x=>x.username===u&&x.password===p&&x.role===r);if(f){currentUser=f;showDashboard();}else alert('Invalid');}
-    function logout(){currentUser=null;document.getElementById('userPanel').classList.add('hidden');document.getElementById('dashboardIntro').classList.remove('hidden');}
-    function showDashboard(){document.getElementById('dashboardIntro').classList.add('hidden');document.getElementById('userPanel').classList.remove('hidden');document.getElementById('loggedAs').textContent=`Logged in: ${currentUser.name} (${currentUser.role})`;document.getElementById('panelTitle').textContent=`${currentUser.role} Panel`;setupActionsForRole();if(currentUser.role==='Retailer'){document.getElementById('usersListSection').classList.add('hidden');}else{document.getElementById('usersListSection').classList.remove('hidden');renderUsersTable();}}
-    function setupActionsForRole(){const a=document.getElementById('actionsArea');a.innerHTML='';if(currentUser.role==='SuperDistributor'){a.innerHTML+='<div class="muted">Full access</div>';}else if(currentUser.role==='Distributor'){a.innerHTML+='<div class="muted">Distributor actions</div>';}else{a.innerHTML='<div class="muted">Services only</div>';}}
-    function renderUsersTable(){const tb=document.querySelector('#usersTable tbody');tb.innerHTML='';loadUsers().forEach(u=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${u.name}</td><td>${u.username}</td><td><span class="tag">${u.role}</span></td><td>${u.parent||'-'}</td><td><span class=muted>-</span></td>`;tb.appendChild(tr);});}
+    function login(){
+      const u=document.getElementById('loginUser').value.trim();
+      const p=document.getElementById('loginPass').value;
+      const r=document.getElementById('loginRole').value;
+      const f=loadUsers().find(x=>x.username===u&&x.password===p&&x.role===r);
+      if(f){currentUser=f;showDashboard();}else alert('Invalid');
+    }
+    function logout(){
+      currentUser=null;
+      document.getElementById('userPanel').classList.add('hidden');
+      document.getElementById('dashboardIntro').classList.remove('hidden');
+    }
+    function showDashboard(){
+      document.getElementById('dashboardIntro').classList.add('hidden');
+      document.getElementById('userPanel').classList.remove('hidden');
+      document.getElementById('loggedAs').textContent=`Logged in: ${currentUser.name} (${currentUser.role})`;
+      document.getElementById('panelTitle').textContent=`${currentUser.role} Panel`;
+      setupActionsForRole();
+      if(currentUser.role==='Retailer'){
+        document.getElementById('usersListSection').classList.add('hidden');
+      } else {
+        document.getElementById('usersListSection').classList.remove('hidden');
+        renderUsersTable();
+      }
+    }
+    function setupActionsForRole(){
+      const a=document.getElementById('actionsArea');
+      a.innerHTML='';
+      if(currentUser.role==='SuperDistributor'){
+        a.innerHTML+='<div class="muted">Full access</div>';
+      } else if(currentUser.role==='Distributor'){
+        a.innerHTML+='<div class="muted">Distributor actions</div>';
+      } else {
+        a.innerHTML='<div class="muted">Services only</div>';
+      }
+    }
+    function renderUsersTable(){
+      const tb=document.querySelector('#usersTable tbody');
+      tb.innerHTML='';
+      loadUsers().forEach(u=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${u.name}</td><td>${u.username}</td><td><span class="tag">${u.role}</span></td><td>${u.parent||'-'}</td><td><span class=muted>-</span></td>`;
+        tb.appendChild(tr);
+      });
+    }
   </script>
 </body>
 </html>
