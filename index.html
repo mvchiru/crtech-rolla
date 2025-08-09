@@ -7,79 +7,77 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #00b4db, #0083b0);
-      color: white;
+      background: #f0f0f0;
       text-align: center;
-      margin: 0;
-      padding: 0;
+      padding-top: 50px;
     }
-    header {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 15px;
-      font-size: 24px;
-      font-weight: bold;
+    h1 {
+      color: #333;
     }
     .login-box {
-      background: rgba(255, 255, 255, 0.1);
-      margin: 40px auto;
+      background: white;
       padding: 20px;
       border-radius: 10px;
-      width: 300px;
+      display: inline-block;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
     }
     input {
-      width: 90%;
-      padding: 8px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 5px;
+      padding: 10px;
+      margin: 5px;
+      width: 200px;
     }
     button {
-      padding: 10px 20px;
-      background: #ff9800;
+      padding: 10px;
+      margin-top: 10px;
+      width: 220px;
+      background: #007bff;
+      color: white;
       border: none;
       border-radius: 5px;
-      color: white;
       cursor: pointer;
     }
     button:hover {
-      background: #e68900;
-    }
-    .hidden {
-      display: none;
-    }
-    .panel {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 10px;
-      width: 80%;
-    }
-    h2 {
-      margin-top: 0;
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
-  <header>CRTECH-ROLLA</header>
 
-  <div id="login-section" class="login-box">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
+  <h1>CRTECH-ROLLA</h1>
+
+  <div class="login-box">
+    <input type="text" id="username" placeholder="Enter Username"><br>
+    <input type="password" id="password" placeholder="Enter Password"><br>
     <button onclick="login()">Login</button>
   </div>
 
-  <div id="super-distributor-panel" class="panel hidden">
-    <h2>Super Distributor Panel</h2>
-    <button onclick="alert('Create/Edit Distributors')">Create/Edit Distributors</button>
-    <button onclick="alert('Create/Edit Retailers')">Create/Edit Retailers</button>
-    <button onclick="alert('View Full List')">View Full List</button>
-  </div>
+  <script>
+    function login() {
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
 
-  <div id="distributor-panel" class="panel hidden">
-    <h2>Distributor Panel</h2>
-    <button onclick="alert('Create/Edit Your Retailers')">Create/Edit Retailers</button>
-    <button onclick="alert('View Your Retailers')">View Your Retailers</button>
-  </div>
+      // Sample role-based credentials
+      const superDistributor = { username: "super1", password: "super123" };
+      const distributor = { username: "dist1", password: "dist123" };
+      const retailer = { username: "retail1", password: "retail123" };
 
-  <div i
+      if (user === superDistributor.username && pass === superDistributor.password) {
+        alert("Super Distributor Login Successful");
+        window.location.href = "super-distributor.html";
+      } 
+      else if (user === distributor.username && pass === distributor.password) {
+        alert("Distributor Login Successful");
+        window.location.href = "distributor.html";
+      } 
+      else if (user === retailer.username && pass === retailer.password) {
+        alert("Retailer Login Successful");
+        window.location.href = "retailer.html";
+      } 
+      else {
+        alert("Invalid credentials. Try again.");
+      }
+    }
+  </script>
+
+</body>
+</html>
