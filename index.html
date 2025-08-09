@@ -8,23 +8,43 @@
     body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #007bff, #00c6ff);
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        background: #f9f9f9;
     }
+    /* Header */
+    header {
+        background: #4a6cf7;
+        color: white;
+        padding: 10px 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    header .logo {
+        font-weight: bold;
+        font-size: 20px;
+    }
+    nav a {
+        color: white;
+        margin-left: 20px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    /* Login Box */
     .login-container {
         background: white;
+        max-width: 400px;
+        margin: 80px auto;
         padding: 30px;
         border-radius: 10px;
-        width: 350px;
         box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
         text-align: center;
     }
     .login-container h2 {
+        color: #4a6cf7;
         margin-bottom: 20px;
-        color: #007bff;
     }
     input {
         width: 100%;
@@ -33,19 +53,32 @@
         border-radius: 5px;
         border: 1px solid #ccc;
         font-size: 16px;
+        background: #e9f0ff;
+    }
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     button {
-        width: 100%;
-        padding: 12px;
+        padding: 12px 25px;
         border: none;
-        background: #007bff;
+        background: #4a6cf7;
         color: white;
         font-size: 16px;
-        border-radius: 5px;
+        border-radius: 50px;
         cursor: pointer;
     }
     button:hover {
-        background: #0056b3;
+        background: #344ec9;
+    }
+    .forgot-link {
+        font-size: 14px;
+        color: #4a6cf7;
+        text-decoration: none;
+    }
+    .forgot-link:hover {
+        text-decoration: underline;
     }
     .error {
         color: red;
@@ -57,11 +90,25 @@
 </head>
 <body>
 
+<header>
+    <div class="logo">CRTECH-ROLLA</div>
+    <nav>
+        <a href="#">HOME</a>
+        <a href="#">ABOUT</a>
+        <a href="#">SERVICES</a>
+        <a href="#">LOGIN</a>
+        <a href="#">CONTACT</a>
+    </nav>
+</header>
+
 <div class="login-container">
-    <h2>CRTECH-ROLLA Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+    <h2>Login Here</h2>
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <div class="btn-container">
+        <button onclick="login()">Login</button>
+        <a href="#" class="forgot-link">Forgot User Login / Password?</a>
+    </div>
     <p class="error" id="error-msg">Invalid credentials. Try again.</p>
 </div>
 
@@ -71,7 +118,7 @@
         let pass = document.getElementById("password").value.trim();
         
         if(user === "CRTECH" && pass === "CRTECH") {
-            window.location.href = "home.html"; // change to your home page link
+            window.location.href = "home.html"; // Change to your home page link
         } else {
             document.getElementById("error-msg").style.display = "block";
         }
