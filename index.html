@@ -1,79 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>CRTECH-ROLLA Login</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #2193b0, #6dd5ed);
-    color: #fff;
-    text-align: center;
-    padding-top: 100px;
-  }
-  .login-box {
-    background: rgba(0,0,0,0.6);
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    margin: auto;
-  }
-  input {
-    width: 90%;
-    padding: 8px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 5px;
-  }
-  button {
-    padding: 10px 20px;
-    border: none;
-    background: #00c6ff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  button:hover {
-    background: #0072ff;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRTECH-ROLLA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #2c3e50, #3498db);
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .login-container {
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      margin: 100px auto;
+    }
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2ecc71;
+    }
+  </style>
 </head>
 <body>
 
-<div class="login-box">
-  <h2>CRTECH-ROLLA Login</h2>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="login()">Login</button>
-  <p id="message"></p>
-</div>
+  <div class="login-container">
+    <h2>CRTECH-ROLLA Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="error" style="color: red;"></p>
+  </div>
 
-<script>
-function login() {
-    let user = document.getElementById('username').value.trim();
-    let pass = document.getElementById('password').value.trim();
-    let message = document.getElementById('message');
+  <script>
+    // Predefined login credentials for Super Distributor
+    const credentials = {
+      superDistributor: { username: "CRTECH", password: "CRTECH123" }
+    };
 
-    // Master login: Super Distributor
-    if (user === "CRTECH" && pass === "CRTECH123") {
-        window.location.href = "super_distributor.html";
-        return;
-    }
-    // Distributor login
-    if (user === "DIST1" && pass === "DIST123") {
-        window.location.href = "distributor.html";
-        return;
-    }
-    // Retailer login
-    if (user === "RET1" && pass === "RET123") {
-        window.location.href = "retailer.html";
-        return;
-    }
+    function login() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
 
-    message.style.color = "red";
-    message.textContent = "Invalid credentials. Try again.";
-}
-</script>
+      if (user === credentials.superDistributor.username && pass === credentials.superDistributor.password) {
+        // Redirect to Super Distributor dashboard
+        window.location.href = "super_distributor_dashboard.html";
+      } else {
+        document.getElementById("error").textContent = "Invalid credentials. Try again.";
+      }
+    }
+  </script>
 
 </body>
 </html>
