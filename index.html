@@ -1,343 +1,408 @@
-<!doctype html>
+      <!DOCTYPE html>
 <html lang="te">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CRTECH-ROLLA</title>
-  <style>
-    :root{--blue:#3b6df0;--muted:#94a3b8;--card:#ffffff;--bg1:#f5f9ff}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#eaf4ff 0%, #f8fbff 100%);color:#07203a}
-    header{background:var(--blue);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
-    .logo{font-weight:800;font-size:18px}
-    nav a{color:rgba(255,255,255,0.92);margin-left:18px;text-decoration:none;font-weight:600}
-    .wrap{max-width:1100px;margin:30px auto;padding:18px}
-
-    /* centered card */
-    .card{background:var(--card);border-radius:12px;padding:22px;box-shadow:0 8px 30px rgba(31,49,84,0.08)}
-    .login-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
-    .login-box{max-width:420px;margin:auto}
-    input,select,textarea,button{font-size:15px}
-    label{display:block;margin-top:10px;color:var(--muted);font-size:13px}
-    input,select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef6;background:transparent}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:0;background:var(--blue);color:#fff;cursor:pointer}
-    .muted{color:var(--muted);font-size:13px}
-    .links{margin-top:10px}
-    .links a{color:var(--blue);text-decoration:none;margin-right:12px}
-
-    /* Dashboard */
-    .hidden{display:none}
-    .panel-grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
-    .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .tile{background:#f7fbff;padding:14px;border-radius:10px;border:1px solid #eef6ff}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{padding:10px;border-bottom:1px solid #f1f6fb;text-align:left}
-    .tag{background:#eef6ff;padding:6px 8px;border-radius:999px;color:var(--blue);font-weight:600}
-    .small{font-size:13px;color:var(--muted)}
-
-    /* footer */
-    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
-
-    @media(max-width:900px){.login-grid{grid-template-columns:1fr}.panel-grid{grid-template-columns:1fr}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CRTECH-ROLLA Login & Role Management</title>
+<style>
+  :root {
+    --bg-color: #0f172a;
+    --card-color: #1e293b;
+    --accent-color: #06b6d4;
+    --text-color: #e0e7ff;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+  }
+  body {
+    margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .container {
+    background: var(--card-color);
+    border-radius: 12px;
+    padding: 25px 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgb(2 12 27 / 0.7);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 1.2px;
+    color: var(--accent-color);
+  }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  input[type="text"], input[type="password"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 18px;
+    font-size: 1rem;
+  }
+  input[type="submit"], button {
+    background-color: var(--accent-color);
+    color: #fff;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  input[type="submit"]:hover, button:hover {
+    background-color: #0a94a8;
+  }
+  .message {
+    text-align: center;
+    margin-top: 14px;
+    font-weight: 600;
+  }
+  .error {
+    color: var(--error-color);
+  }
+  .success {
+    color: var(--success-color);
+  }
+  .hidden {
+    display: none;
+  }
+  nav {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  nav button {
+    width: auto;
+    padding: 10px 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  th {
+    background-color: var(--accent-color);
+    color: #fff;
+  }
+  .section-title {
+    margin-top: 15px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--accent-color);
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">CRTECH-ROLLA</div>
-    <nav>
-      <a href="#" onclick="showHome()">HOME</a>
-      <a href="#" onclick="showAbout()">ABOUT</a>
-      <a href="#" onclick="showServices()">SERVICES</a>
-      <a href="#" onclick="showContact()">CONTACT</a>
+  <div class="container" id="loginContainer">
+    <h1>CRTECH-ROLLA Login</h1>
+    <form id="loginForm">
+      <label for="username">User Name</label>
+      <input type="text" id="username" required autocomplete="off" />
+      <label for="password">Password</label>
+      <input type="password" id="password" required autocomplete="off" />
+      <input type="submit" value="Login" />
+    </form>
+    <div class="message" id="loginMessage"></div>
+  </div>
+
+  <div class="container hidden" id="dashboardContainer">
+    <h1 id="dashboardTitle"></h1>
+    <nav id="dashboardNav">
+      <!-- Nav buttons added dynamically -->
     </nav>
-  </header>
 
-  <div class="wrap">
-    <!-- LOGIN CARD -->
-    <div id="loginCard" class="card">
-      <div class="login-grid">
-        <div class="login-box">
-          <h2 style="margin:0 0 8px 0">Login</h2>
-          <label>Username</label>
-          <input id="loginUser" placeholder="Enter Username (e.g., CRTECH, DIST1, RET1)" />
-          <label>Password</label>
-          <input id="loginPass" type="password" placeholder="Enter Password" />
-          <label>Role</label>
-          <select id="loginRole">
-            <option value="SuperDistributor">Super Distributor</option>
-            <option value="Distributor">Distributor</option>
-            <option value="Retailer">Retailer</option>
-          </select>
-          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-            <button class="btn" onclick="handleLogin()">Login</button>
-            <a href="#" onclick="openForgot()" class="small" style="margin-left:6px">Forgot User Login / Password?</a>
-          </div>
-          <p id="loginError" class="small" style="color:#c0392b;display:none;margin-top:8px">Invalid credentials. Try again.</p>
-        </div>
-        <div style="padding:10px">
-          <h3 style="margin-top:0">Public Links / Services</h3>
-          <div class="small">Useful AP Govt and exam links (visible always)</div>
-          <ul style="margin-top:10px">
-            <li><a href="#">SSC Hall Tickets</a></li>
-            <li><a href="#">Meeseva Services</a></li>
-            <li><a href="#">APPSC</a></li>
-          </ul>
-          <div style="margin-top:12px">
-            <strong class="small">Department logos</strong>
-            <div style="display:flex;gap:8px;margin-top:8px">
-              <img src="https://via.placeholder.com/120x36?text=Meeseva" alt="logo" />
-              <img src="https://via.placeholder.com/120x36?text=SSC" alt="logo" />
-              <img src="https://via.placeholder.com/120x36?text=APPSC" alt="logo" />
-            </div>
-          </div>
-        </div>
+    <!-- Sections for Super Distributor -->
+    <section id="superDistributorSection" class="hidden">
+      <h2 class="section-title">Super Distributor Panel</h2>
+      <button id="createDistributorBtn">Create Distributor</button>
+      <button id="createRetailerBtn">Create Retailer</button>
+      <div id="superDistributorList">
+        <h3>Distributors List</h3>
+        <table id="distributorsTable">
+          <thead><tr><th>User Name</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <h3>Retailers List</h3>
+        <table id="retailersTableFromSuper">
+          <thead><tr><th>User Name</th><th>Distributor</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sections for Distributor -->
+    <section id="distributorSection" class="hidden">
+      <h2 class="section-title">Distributor Panel</h2>
+      <button id="createRetailerBtnDistributor">Create Retailer</button>
+      <div id="retailersListDistributor">
+        <h3>My Retailers</h3>
+        <table id="retailersTableFromDistributor">
+          <thead><tr><th>User Name</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section for Retailer -->
+    <section id="retailerSection" class="hidden">
+      <h2 class="section-title">Retailer Panel</h2>
+      <p>Welcome Retailer! You can view your profile and orders here.</p>
+      <!-- Retailer specific content -->
+    </section>
+
+    <!-- Create User Modal -->
+    <div id="createUserModal" class="hidden" style="background:rgba(0,0,0,0.6);position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;">
+      <div style="background:var(--card-color);padding:20px;border-radius:10px;max-width:400px;width:90%;">
+        <h3 id="createUserTitle"></h3>
+        <form id="createUserForm">
+          <label for="newUsername">User Name</label>
+          <input type="text" id="newUsername" required autocomplete="off" />
+          <label for="newPassword">Password</label>
+          <input type="password" id="newPassword" required autocomplete="off" />
+          <input type="submit" value="Create" />
+          <button type="button" id="cancelCreateUserBtn" style="margin-top:10px;background:#ef4444;">Cancel</button>
+          <div class="message" id="createUserMessage"></div>
+        </form>
       </div>
     </div>
 
-    <!-- DASHBOARD (after login) -->
-    <div id="dashboard" class="hidden">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
-        <div>
-          <h2 id="dashTitle" style="margin:0">Welcome</h2>
-          <div class="small" id="dashSubtitle">Role panel</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button class="btn" onclick="openCreateUser()">Create User</button>
-          <button onclick="logout()" style="background:transparent;border:1px solid #dbeeff;padding:8px 12px;border-radius:8px;cursor:pointer">Logout</button>
-        </div>
-      </div>
-
-      <div class="panel-grid">
-        <div>
-          <div class="tile">
-            <h3 style="margin:0">Quick Actions</h3>
-            <div class="actions" id="quickActions" style="margin-top:10px"></div>
-          </div>
-
-          <div style="margin-top:12px" class="card">
-            <h3 style="margin:0 0 8px 0">Users List</h3>
-            <table id="usersTable"><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Assigned To</th><th>Actions</th></tr></thead><tbody></tbody></table>
-          </div>
-        </div>
-
-        <div>
-          <div class="tile">
-            <h4 style="margin:0">Services</h4>
-            <div class="small" style="margin-top:8px">Visible to all roles</div>
-            <ul style="margin-top:8px">
-              <li><a href="#">SSC Hall Tickets</a></li>
-              <li><a href="#">Meeseva Services</a></li>
-              <li><a href="#">APPSC</a></li>
-            </ul>
-          </div>
-
-          <div class="tile" style="margin-top:12px">
-            <h4 style="margin:0">Reports</h4>
-            <div style="margin-top:8px" class="small">Quick report links</div>
-            <div style="margin-top:8px"><button class="btn" onclick="alert('Open Orders Report')">Orders Report</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <footer>Client-side demo. For production replace with server auth & DB.</footer>
+    <button id="logoutBtn" class="hidden" style="margin-top: 15px; background:#ef4444;">Logout</button>
   </div>
 
-  <!-- MODALS / FORGOT / CREATE -->
-  <div id="forgotModal" class="hidden" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,12,28,0.4)">
-    <div style="background:white;padding:18px;border-radius:10px;max-width:420px;width:100%">
-      <h3 style="margin-top:0">Forgot Username / Password</h3>
-      <p class="small">This demo cannot reset passwords. To simulate, use the sample accounts or contact your admin.</p>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-        <button onclick="closeForgot()" class="btn">Close</button>
-      </div>
-    </div>
-  </div>
+<script>
+  // In-memory "database" for demo only
+  const users = [
+    {username: "CRTECH", password: "CRTECH", role: "SuperDistributor"},
+    {username: "DIST1", password: "dist1pass", role: "Distributor", parent: "CRTECH"},
+    {username: "RET1", password: "ret1pass", role: "Retailer", parent: "DIST1"},
+  ];
 
-  <div id="createModal" class="hidden" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(6,12,28,0.4)">
-    <div style="background:white;padding:18px;border-radius:10px;max-width:520px;width:100%">
-      <h3 id="createTitle">Create User</h3>
-      <label>Name</label>
-      <input id="c_name" />
-      <label>Username</label>
-      <input id="c_username" />
-      <label>Password</label>
-      <input id="c_password" />
-      <label>Role</label>
-      <select id="c_role"><option value="Distributor">Distributor</option><option value="Retailer">Retailer</option></select>
-      <div id="c_parent_box" class="hidden"><label>Assign to Distributor</label><select id="c_parent"></select></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-        <button class="btn" onclick="saveCreate()">Save</button>
-        <button onclick="closeCreate()" style="background:transparent;border:1px solid #dbeeff;padding:8px 12px;border-radius:8px;cursor:pointer">Cancel</button>
-      </div>
-    </div>
-  </div>
+  let currentUser = null;
 
-  <script>
-    // client-side storage key and sample accounts
-    const STORAGE_KEY = 'crtech_users_v2';
-    let currentUser = null; // {username,role,name,parent}
+  const loginContainer = document.getElementById("loginContainer");
+  const dashboardContainer = document.getElementById("dashboardContainer");
+  const loginForm = document.getElementById("loginForm");
+  const loginMessage = document.getElementById("loginMessage");
+  const dashboardTitle = document.getElementById("dashboardTitle");
+  const dashboardNav = document.getElementById("dashboardNav");
 
-    // init sample users if none
-    function ensureSamples(){
-      const users = loadUsers();
-      if(users.length===0){
-        const samples=[
-          {name:'CRTECH Admin',username:'CRTECH',password:'CRTECH123',role:'SuperDistributor',parent:null},
-          {name:'Dist One',username:'DIST1',password:'DIST123',role:'Distributor',parent:'CRTECH'},
-          {name:'Retail One',username:'RET1',password:'RET123',role:'Retailer',parent:'DIST1'}
-        ]; saveUsers(samples);
-      }
-    }
+  const superDistributorSection = document.getElementById("superDistributorSection");
+  const distributorSection = document.getElementById("distributorSection");
+  const retailerSection = document.getElementById("retailerSection");
 
-    function loadUsers(){return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');}
-    function saveUsers(u){localStorage.setItem(STORAGE_KEY, JSON.stringify(u));}
+  const createUserModal = document.getElementById("createUserModal");
+  const createUserForm = document.getElementById("createUserForm");
+  const createUserTitle = document.getElementById("createUserTitle");
+  const newUsername = document.getElementById("newUsername");
+  const newPassword = document.getElementById("newPassword");
+  const createUserMessage = document.getElementById("createUserMessage");
+  const cancelCreateUserBtn = document.getElementById("cancelCreateUserBtn");
 
-    // Login handling
-    function handleLogin(){
-      const u=document.getElementById('loginUser').value.trim();
-      const p=document.getElementById('loginPass').value.trim();
-      const role=document.getElementById('loginRole').value;
-      const users=loadUsers();
-      const found = users.find(x=>x.username.toUpperCase()===u.toUpperCase() && x.password===p && x.role===role);
-      if(found){ currentUser=found; showDashboard(); document.getElementById('loginError').style.display='none'; }
-      else { document.getElementById('loginError').style.display='block'; }
-    }
+  const createDistributorBtn = document.getElementById("createDistributorBtn");
+  const createRetailerBtn = document.getElementById("createRetailerBtn");
+  const createRetailerBtnDistributor = document.getElementById("createRetailerBtnDistributor");
 
-    function showDashboard(){
-      document.getElementById('loginCard').classList.add('hidden');
-      document.getElementById('dashboard').classList.remove('hidden');
-      document.getElementById('dashTitle').textContent = `Welcome ${currentUser.name}`;
-      document.getElementById('dashSubtitle').textContent = `${currentUser.role} Panel`;
-      setupQuickActions();
-      renderUsersTable();
-      // hide Create button for Retailer
-      if(currentUser.role==='Retailer') document.querySelector('button[onclick="openCreateUser()"]').style.display='none';
-      else document.querySelector('button[onclick="openCreateUser()"]').style.display='inline-block';
-    }
+  const distributorsTableBody = document.querySelector("#distributorsTable tbody");
+  const retailersTableFromSuperBody = document.querySelector("#retailersTableFromSuper tbody");
+  const retailersTableFromDistributorBody = document.querySelector("#retailersTableFromDistributor tbody");
 
-    function logout(){ currentUser=null; document.getElementById('dashboard').classList.add('hidden'); document.getElementById('loginCard').classList.remove('hidden'); }
+  const logoutBtn = document.getElementById("logoutBtn");
 
-    function setupQuickActions(){
-      const area=document.getElementById('quickActions'); area.innerHTML='';
-      if(currentUser.role==='SuperDistributor'){
-        area.innerHTML += '<button class="btn" onclick="openCreateUser(\'Distributor\')">Create Distributor</button>';
-        area.innerHTML += '<button class="btn" onclick="renderUsersTable()">View All Users</button>';
-      } else if(currentUser.role==='Distributor'){
-        area.innerHTML += '<button class="btn" onclick="openCreateUser(\'Retailer\')">Create Retailer</button>';
-        area.innerHTML += '<button class="btn" onclick="renderUsersTable()">View My Retailers</button>';
-      } else {
-        area.innerHTML += '<div class="small">Retailers can view services and place orders (demo)</div>';
-      }
-    }
+  function showMessage(elem, msg, isError=false) {
+    elem.textContent = msg;
+    elem.className = isError ? "message error" : "message success";
+  }
 
-    // USERS table rendering and action visibility rules
-    function renderUsersTable(){
-      const tbody=document.querySelector('#usersTable tbody'); tbody.innerHTML='';
-      const users=loadUsers();
-      users.forEach(u=>{
-        // determine visibility
-        let show=true;
-        if(currentUser.role==='Distributor'){
-          // distributor sees only self and their retailers
-          show = (u.username===currentUser.username) || (u.parent===currentUser.username);
+  function clearMessage(elem) {
+    elem.textContent = "";
+    elem.className = "message";
+  }
+
+  function showSection(section) {
+    superDistributorSection.classList.add("hidden");
+    distributorSection.classList.add("hidden");
+    retailerSection.classList.add("hidden");
+    section.classList.remove("hidden");
+  }
+
+  function renderDistributors() {
+    distributorsTableBody.innerHTML = "";
+    users.filter(u => u.role === "Distributor").forEach(d => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${d.username}</td>
+                      <td><button onclick="deleteUser('${d.username}')">Delete</button></td>`;
+      distributorsTableBody.appendChild(tr);
+    });
+  }
+
+  function renderRetailersForSuper() {
+    retailersTableFromSuperBody.innerHTML = "";
+    users.filter(u => u.role === "Retailer").forEach(r => {
+      const distributor = r.parent || "-";
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${r.username}</td><td>${distributor}</td><td><button onclick="deleteUser('${r.username}')">Delete</button></td>`;
+      retailersTableFromSuperBody.appendChild(tr);
+    });
+  }
+
+  function renderRetailersForDistributor() {
+    retailersTableFromDistributorBody.innerHTML = "";
+    users.filter(u => u.role === "Retailer" && u.parent === currentUser.username).forEach(r => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${r.username}</td><td><button onclick="deleteUser('${r.username}')">Delete</button></td>`;
+      retailersTableFromDistributorBody.appendChild(tr);
+    });
+  }
+
+  function deleteUser(username) {
+    if(confirm(`Are you sure you want to delete user "${username}"?`)) {
+      const index = users.findIndex(u => u.username === username);
+      if(index !== -1) {
+        // Also delete child users if any (for distributors)
+        if(users[index].role === "Distributor") {
+          for(let i = users.length - 1; i >= 0; i--) {
+            if(users[i].parent === username) {
+              users.splice(i,1);
+            }
+          }
         }
-        if(!show) return;
-        const tr=document.createElement('tr');
-        tr.innerHTML = `<td>${u.name}</td><td>${u.username}</td><td><span class="tag">${u.role}</span></td><td>${u.parent||'-'}</td><td class="actions"></td>`;
-        const actions = tr.querySelector('.actions');
-        // action rules
-        if(canCurrentEdit(u)){
-          const eBtn=document.createElement('button'); eBtn.textContent='Edit'; eBtn.onclick = ()=>editUser(u.username);
-          const dBtn=document.createElement('button'); dBtn.textContent='Delete'; dBtn.onclick = ()=>deleteUser(u.username);
-          actions.appendChild(eBtn); actions.appendChild(dBtn);
-        } else {
-          actions.innerHTML = '<span class="small">No actions</span>';
-        }
-        tbody.appendChild(tr);
-      });
-    }
-
-    function canCurrentEdit(target){
-      if(!currentUser) return false;
-      if(currentUser.role==='SuperDistributor') return true; // full
-      if(currentUser.role==='Distributor'){
-        return target.role==='Retailer' && target.parent===currentUser.username;
+        users.splice(index, 1);
+        alert(`User "${username}" deleted.`);
+        renderDashboard();
       }
-      return false;
+    }
+  }
+
+  function renderDashboard() {
+    dashboardTitle.textContent = `Welcome, ${currentUser.username} (${currentUser.role})`;
+    loginContainer.classList.add("hidden");
+    dashboardContainer.classList.remove("hidden");
+    logoutBtn.classList.remove("hidden");
+
+    if(currentUser.role === "SuperDistributor") {
+      showSection(superDistributorSection);
+      renderDistributors();
+      renderRetailersForSuper();
+      createDistributorBtn.classList.remove("hidden");
+      createRetailerBtn.classList.remove("hidden");
+      createRetailerBtnDistributor.classList.add("hidden");
+    } else if(currentUser.role === "Distributor") {
+      showSection(distributorSection);
+      renderRetailersForDistributor();
+      createDistributorBtn.classList.add("hidden");
+      createRetailerBtn.classList.add("hidden");
+      createRetailerBtnDistributor.classList.remove("hidden");
+    } else if(currentUser.role === "Retailer") {
+      showSection(retailerSection);
+      createDistributorBtn.classList.add("hidden");
+      createRetailerBtn.classList.add("hidden");
+      createRetailerBtnDistributor.classList.add("hidden");
+    }
+  }
+
+  loginForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const uname = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value;
+
+    const user = users.find(u => u.username === uname && u.password === pass);
+    if(user) {
+      currentUser = user;
+      clearMessage(loginMessage);
+      loginForm.reset();
+      renderDashboard();
+    } else {
+      showMessage(loginMessage, "Invalid username or password", true);
+    }
+  });
+
+  function openCreateUserModal(role) {
+    createUserForm.reset();
+    clearMessage(createUserMessage);
+    createUserModal.classList.remove("hidden");
+    newUsername.focus();
+    createUserTitle.textContent = `Create New ${role}`;
+    createUserForm.dataset.role = role;
+  }
+
+  createDistributorBtn.addEventListener("click", () => openCreateUserModal("Distributor"));
+  createRetailerBtn.addEventListener("click", () => openCreateUserModal("Retailer"));
+  createRetailerBtnDistributor.addEventListener("click", () => openCreateUserModal("Retailer"));
+
+  cancelCreateUserBtn.addEventListener("click", () => {
+    createUserModal.classList.add("hidden");
+  });
+
+  createUserForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const uname = newUsername.value.trim();
+    const pass = newPassword.value;
+    const role = createUserForm.dataset.role;
+
+    if(users.some(u => u.username.toLowerCase() === uname.toLowerCase())) {
+      showMessage(createUserMessage, "Username already exists!", true);
+      return;
+    }
+    if(uname === "" || pass === "") {
+      showMessage(createUserMessage, "Please enter valid username and password.", true);
+      return;
     }
 
-    // Create / Edit modal
-    let editingUsername = null;
-    function openCreateUser(prefillRole){
-      editingUsername = null;
-      document.getElementById('createTitle').textContent = prefillRole? `Create ${prefillRole}` : 'Create User';
-      document.getElementById('c_name').value=''; document.getElementById('c_username').value=''; document.getElementById('c_password').value='';
-      if(prefillRole) document.getElementById('c_role').value = prefillRole; else document.getElementById('c_role').value='Distributor';
-      updateParentOptions();
-      document.getElementById('createModal').classList.remove('hidden');
+    let parent = null;
+    if(role === "Distributor" && currentUser.role === "SuperDistributor") {
+      parent = currentUser.username; // Super Distributor is parent of Distributor
     }
-    function closeCreate(){ document.getElementById('createModal').classList.add('hidden'); }
-
-    function updateParentOptions(){
-      const users=loadUsers(); const distSelect=document.getElementById('c_parent'); distSelect.innerHTML='';
-      const distributors = users.filter(u=>u.role==='Distributor');
-      distributors.forEach(d=>{ const op=document.createElement('option'); op.value=d.username; op.textContent = d.name + ' ('+d.username+')'; distSelect.appendChild(op); });
-      // if current user is Distributor, auto select and hide
-      if(currentUser && currentUser.role==='Distributor'){
-        document.getElementById('c_parent_box').classList.remove('hidden'); distSelect.innerHTML=''; const op=document.createElement('option'); op.value=currentUser.username; op.textContent=currentUser.name+' ('+currentUser.username+')'; distSelect.appendChild(op); document.getElementById('c_parent_box').classList.remove('hidden');
+    if(role === "Retailer") {
+      if(currentUser.role === "SuperDistributor") {
+        parent = null; // Retailer created by Super Distributor - no parent or can be assigned separately
+      } else if(currentUser.role === "Distributor") {
+        parent = currentUser.username; // Retailer created by Distributor
       }
-      // show parent box only if role is Retailer
-      document.getElementById('c_role').onchange = function(){ if(this.value==='Retailer') document.getElementById('c_parent_box').classList.remove('hidden'); else document.getElementById('c_parent_box').classList.add('hidden'); };
-      // initial
-      if(document.getElementById('c_role').value==='Retailer') document.getElementById('c_parent_box').classList.remove('hidden'); else document.getElementById('c_parent_box').classList.add('hidden');
     }
 
-    function saveCreate(){
-      const name=document.getElementById('c_name').value.trim();
-      const username=document.getElementById('c_username').value.trim();
-      const password=document.getElementById('c_password').value.trim() || '12345';
-      const role=document.getElementById('c_role').value;
-      const parent = role==='Retailer' ? document.getElementById('c_parent').value : null;
-      if(!name || !username){ alert('Please fill name and username'); return; }
-      const users=loadUsers();
-      if(editingUsername){
-        const u = users.find(x=>x.username===editingUsername);
-        u.name=name; u.password=password; u.parent=parent; saveUsers(users); editingUsername=null; closeCreate(); renderUsersTable(); return;
-      }
-      if(users.find(x=>x.username.toUpperCase()===username.toUpperCase())){ alert('Username already exists'); return; }
-      // role restrictions: Distributor can only create Retailers (handled by UI) but double-check
-      if(currentUser.role==='Distributor' && role!=='Retailer'){ alert('Distributor can only create Retailers'); return; }
-      const newU={name,username,password,role,parent}; users.push(newU); saveUsers(users); closeCreate(); renderUsersTable();
-    }
+    users.push({username: uname, password: pass, role: role, parent: parent});
+    showMessage(createUserMessage, `${role} "${uname}" created successfully!`);
+    createUserForm.reset();
+    renderDashboard();
 
-    function editUser(username){
-      const users=loadUsers(); const u=users.find(x=>x.username===username); if(!u) return alert('Not found');
-      // permission check
-      if(!canCurrentEdit(u) && currentUser.role!=='SuperDistributor') return alert('Not authorized');
-      editingUsername = username;
-      document.getElementById('createTitle').textContent = `Edit ${u.role}`;
-      document.getElementById('c_name').value = u.name; document.getElementById('c_username').value = u.username; document.getElementById('c_username').disabled = true; document.getElementById('c_password').value = u.password; document.getElementById('c_role').value = u.role;
-      updateParentOptions(); if(u.role==='Retailer') document.getElementById('c_parent').value = u.parent;
-      document.getElementById('createModal').classList.remove('hidden');
-    }
+    setTimeout(() => {
+      createUserModal.classList.add("hidden");
+      clearMessage(createUserMessage);
+    }, 1500);
+  });
 
-    function deleteUser(username){ if(!confirm('Delete '+username+'? This cannot be undone.')) return; let users=loadUsers(); const target = users.find(u=>u.username===username); if(!target) return; // delete its children if distributor
-      users = users.filter(u=> u.username!==username && u.parent!==username); saveUsers(users); renderUsersTable(); }
+  logoutBtn.addEventListener("click", () => {
+    currentUser = null;
+    dashboardContainer.classList.add("hidden");
+    loginContainer.classList.remove("hidden");
+    logoutBtn.classList.add("hidden");
+    loginMessage.textContent = "";
+  });
 
-    // FORGOT modal
-    function openForgot(){ document.getElementById('forgotModal').classList.remove('hidden'); }
-    function closeForgot(){ document.getElementById('forgotModal').classList.add('hidden'); }
+  // Make deleteUser function globally accessible
+  window.deleteUser = deleteUser;
 
-    // helper: show static pages
-    function showHome(){ alert('Home — demo'); }
-    function showAbout(){ alert('About — demo'); }
-    function showServices(){ alert('Services — demo'); }
-    function showContact(){ alert('Contact — demo'); }
-
-    // init
-    ensureSamples();
-
-  </script>
+</script>
 </body>
 </html>
